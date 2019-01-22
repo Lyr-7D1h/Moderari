@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto+Mono|Share+Tech+Mono|Ubuntu|Ubuntu+Mono");
+*:focus {
+  outline: 0; }
+
+body {
+  background-color: #333434;
+  margin: 0;
+  color: white;
+  font-family: 'Share Tech Mono'; }
+  body #logo {
+    background-image: url("/images/moderari.png");
+    background-size: cover;
+    width: 8vw;
+    height: 8vw;
+    left: 3vw;
+    z-index: 0;
+    position: absolute; }
+  body nav {
+    box-shadow: 0px 0px 10px black;
+    text-align: center;
+    overflow: auto;
+    padding: 20px;
+    padding-top: 50px;
+    background-color: #222; }
+    body nav .active {
+      background-color: #8A0808; }
+    body nav p {
+      font-family: 'Ubuntu Mono';
+      margin: 0;
+      margin-top: 10px; }
+    body nav h1 {
+      font-size: 2.5em;
+      color: #8A0808;
+      margin: 0; }
+    body nav ul {
+      list-style: none; }
+    body nav li {
+      font-size: 1.1em;
+      color: white;
+      float: left;
+      margin-right: 15px;
+      padding: 1%;
+      transition-duration: 1s; }
+      body nav li:hover {
+        z-index: 5;
+        background-color: #8A0808;
+        transition-duration: 1s; }
+  body h1 {
+    color: #8A0808; }
+  body a {
+    text-decoration: none; }
+  body main {
+    overflow: auto;
+    padding: 3%;
+    padding-left: 5%;
+    padding-right: 5%; }
+    body main .system_cores {
+      background-color: #222;
+      padding: 50px;
+      width: 40%;
+      margin: 2%;
+      float: left;
+      box-shadow: 0px 0px 10px black; }
+    body main .server_block {
+      position: relative;
+      width: 70%;
+      left: 15%;
+      margin-bottom: 1%; }
+      body main .server_block .server_title {
+        background-color: #111;
+        padding: 5px;
+        font-size: 15px; }
+        body main .server_block .server_title:hover {
+          cursor: pointer; }
+      body main .server_block .server_info {
+        display: none;
+        background-color: #222;
+        padding: 10px;
+        padding-left: 20px; }
+
+/*# sourceMappingURL=main.css.map */
