@@ -1,0 +1,21 @@
+{
+  "name": "moderari_bot",
+  "version": "0.0.0",
+  "description": "A Discord Bot",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "moderari"
+  ],
+  "author": "Exsite",
+  "license": "ISC"
+}
