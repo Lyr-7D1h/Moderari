@@ -20,7 +20,7 @@ let load_servers = () => {
                 <div class="server_info">
                     <img src='${server.icon_url}' alt='Server Icon'>
                     <p>
-                    Owner: ${server.owner}<br> 
+                    Owner: ${server.owner_name}<br> 
                     OwnerID: <@${server.owner_id}><br>
                     Created On: ${server.created_at}<br>
                     Region: ${server.region}<br>
@@ -86,7 +86,6 @@ let load_server_buttons = () => {
 
 $(document).ready(function () {
     let page = document.title.toLocaleLowerCase().substr(12);
-    console.log(page);
     if ($(`#${page}`)) {
         $(`#${page}`).addClass('active');
     }
@@ -96,8 +95,5 @@ $(document).ready(function () {
     } else if (page === 'news') {
         get_news();
     }
-
-
-    console.log("JS Loaded..");
 });
 

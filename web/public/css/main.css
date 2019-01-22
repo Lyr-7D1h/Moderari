@@ -76,6 +76,12 @@ body {
         display: none;
         background-color: #222;
         padding: 10px;
-        padding-left: 20px; }
+        padding-left: 20px;
+        overflow: auto; }
+        body main .server_block .server_info img {
+          float: right;
+          position: relative;
+          width: 10%;
+          margin: 1%; }
 
 /*# sourceMappingURL=main.css.map */
