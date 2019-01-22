@@ -31,6 +31,7 @@ db.serialize(function() {
     db.run(`CREATE TABLE IF NOT EXISTS servers (
         id INT UNIQUE NOT NULL, 
         server_name VARCHAR NOT NULL,
+        available INT NOT NULL,
         icon_url VARCHAR,
         created_at VARCHAR,
         region VARCHAR,

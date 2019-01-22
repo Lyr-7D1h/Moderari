@@ -10,29 +10,48 @@ let http_get = (path, callback) => {
 }
 let load_servers = () => {
     http_get("/data/servers", (data) => {
-    if (data) {
-        for (k in data) {
-            let server = data[k]
-            // console.log(server);
-            $('main').append(`
-            <div class="server_block">
-                <div class="server_title"><span style="color:rgb(31, 190, 31)">⚫</span> ${server.server_name} [${server.id}]</div>
-                <div class="server_info">
-                    <img src='${server.icon_url}' alt='Server Icon'>
-                    <p>
-                    Owner: ${server.owner_name}<br> 
-                    OwnerID: <@${server.owner_id}><br>
-                    Created On: ${server.created_at}<br>
-                    Region: ${server.region}<br>
-                    Members: <span style="color:yellow">${server.member_count}</span><br>
-                    Verification Level: ${server.verification_level}
-                    </p>
+        if (data) {
+            for (k in data) {
+                let server = data[k]
+                let users = JSON.parse(server.users);
+                users = users.length;
+                $('main').append(`
+                <div class="server_block">
+                    <div class="server_title"><i id="online${k}" class="fas fa-plug"></i> ${server.server_name} [${server.id}]</div>
+                    <div class="server_info">
+                        <img src='${server.icon_url}' alt='Server Icon'>
+                        <p>
+                        Owner: ${server.owner_name}<br> 
+                        OwnerID: ${server.owner_id}<br>
+                        Created On: ${server.created_at}<br>
+                        Region: ${server.region}<br>
+                        Members: <span id="members${k}">${users}</span><br>
+                        Verification Level: ${server.verification_level}
+                        </p>
+                    </div>
                 </div>
-            </div>
-            `);            
+                `);
+                if (users > 75) {
+                    $(`#members${k}`).css('color', 'green')
+                } else if (users > 50) {
+                    $(`#members${k}`).css('color', 'lightgreen')
+                } else if (users > 30) {
+                    $(`#members${k}`).css('color', 'yellow')
+                } else if ( users > 15) {
+                    $(`#members${k}`).css('color', 'orange')
+                } else {
+                    $(`#members${k}`).css('color', 'red')
+                }
+
+
+                if (server.available === 1) { // COLOR CHECKS
+                    $(`#online${k}`).css('color', 'green')
+                } else {
+                    $(`#online${k}`).css('color', 'red')
+                }            
+            }
+            load_server_buttons();
         }
-        load_server_buttons();
-    }
     });
 }
 let load_server_buttons = () => {

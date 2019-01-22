@@ -17,22 +17,28 @@ let db = new sqlite3.Database('../moderari.db',(err) => {
 module.exports.add_server = (guild) => {
     let channels = []
     guild.channels.map((v) => {
-        channels.push(v);
+        channels.push(v.id);
     })
     let users = []
     guild.members.map((v) => {
-        users.push(v);
+        // console.log(v.user.bot);
+        if (!(v.user.bot)) { // Check if there are no bots
+            users.push(v.id);
+        }
     })
-    console.log(guild.iconURL, guild.createdAt, guild.owner.displayName)
+    users = JSON.stringify(users);
+    channels = JSON.stringify(channels);
+    // console.log(users, channels);
     db.serialize(() => {
         db.all(`SELECT * FROM servers WHERE id = ${guild.id}`, (err, rows) => { rhandler(err);
             if (rows.length > 1) { // REMOVE DUPLICATES
                 db.run(`DELETE FROM servers WHERE id = ${guild.id}`, (err) => { rhandler(err)});
                 console.log("REMOVING SERVER")
-                db.run(`INSERT INTO servers (id, server_name, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
+                db.run(`INSERT INTO servers (id, server_name, available, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
                 VALUES (
                     ${guild.id}, 
-                    '${guild.name}', 
+                    '${guild.name}',
+                    ${guild.available},
                     '${guild.iconURL}',
                     '${guild.createdAt}',
                     '${guild.region}', 
@@ -45,10 +51,11 @@ module.exports.add_server = (guild) => {
             } 
             if (!(rows.length == 1)) { // ADD IF DOESN'T YET EXIST
                 console.log("ADDING SERVER")
-                db.run(`INSERT INTO servers (id, server_name, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
+                db.run(`INSERT INTO servers (id, server_name, available, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
                 VALUES (
                     ${guild.id}, 
-                    '${guild.name}', 
+                    '${guild.name}',
+                    ${guild.available},
                     '${guild.iconURL}',
                     '${guild.createdAt}',
                     '${guild.region}', 
@@ -57,7 +64,8 @@ module.exports.add_server = (guild) => {
                     ${guild.ownerID}, 
                     '${guild.owner.displayName}',
                     '${users}'
-                )`, (err) => { rhandler(err)});            }
+                )`, (err) => { rhandler(err)});         
+            }
         })
     });
 }

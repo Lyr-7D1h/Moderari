@@ -38,7 +38,7 @@ let update_system_stats = () => {
                 <br><br>
                 Model: ${core.model}
                 <br>
-                Speed: ${core.speed}`;
+                Speed: <span style="font-size:30px">${core.speed}</font>  MHz`;
             }
         }
     },
