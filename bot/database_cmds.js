@@ -23,21 +23,41 @@ module.exports.add_server = (guild) => {
     guild.members.map((v) => {
         users.push(v);
     })
-    
-
+    console.log(guild.iconURL, guild.createdAt, guild.owner.displayName)
     db.serialize(() => {
         db.all(`SELECT * FROM servers WHERE id = ${guild.id}`, (err, rows) => { rhandler(err);
             if (rows.length > 1) { // REMOVE DUPLICATES
                 db.run(`DELETE FROM servers WHERE id = ${guild.id}`, (err) => { rhandler(err)});
                 console.log("REMOVING SERVER")
-                db.run(`INSERT INTO servers (id, server_name, region, verification_level, channels, owner_id, users) 
-                VALUES (${guild.id}, '${guild.name}', "${guild.region}", ${guild.verificationLevel}, '${channels}', ${guild.ownerID}, '${users}')`, (err) => { rhandler(err)});
+                db.run(`INSERT INTO servers (id, server_name, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
+                VALUES (
+                    ${guild.id}, 
+                    '${guild.name}', 
+                    '${guild.iconURL}',
+                    '${guild.createdAt}',
+                    '${guild.region}', 
+                    ${guild.verificationLevel}, 
+                    '${channels}', 
+                    ${guild.ownerID}, 
+                    '${guild.owner.displayName}',
+                    '${users}'
+                )`, (err) => { rhandler(err)});
             } 
             if (!(rows.length == 1)) { // ADD IF DOESN'T YET EXIST
                 console.log("ADDING SERVER")
-                db.run(`INSERT INTO servers (id, server_name, region, verification_level, channels, owner_id, users) 
-                VALUES (${guild.id}, '${guild.name}', "${guild.region}", ${guild.verificationLevel}, '${channels}', ${guild.ownerID}, '${users}')`, (err) => { rhandler(err)});
-            }
+                db.run(`INSERT INTO servers (id, server_name, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
+                VALUES (
+                    ${guild.id}, 
+                    '${guild.name}', 
+                    '${guild.iconURL}',
+                    '${guild.createdAt}',
+                    '${guild.region}', 
+                    ${guild.verificationLevel}, 
+                    '${channels}', 
+                    ${guild.ownerID}, 
+                    '${guild.owner.displayName}',
+                    '${users}'
+                )`, (err) => { rhandler(err)});            }
         })
     });
 }

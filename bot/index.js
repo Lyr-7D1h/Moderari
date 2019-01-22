@@ -37,9 +37,9 @@ client.on('ready', () => {
     console.log(`logged in as`,'\x1b[31m', `${client.user.tag}!`, `\x1b[0m`);
     console.log("\nActive servers: ") //   cyan: \x1b[36m   yellow: "\x1b[33m"
     client.guilds.map(function(guild, k){
+        database.add_server(guild);
         if (guild.available) {
             console.log(`\x1b[32m`,`${guild.name}`,`\x1b[0m`,`[${guild.id}]`); 
-            database.add_server(guild);
         } else {
             console.log(`\x1b[31m`,`${guild.name}`,`\x1b[0m`,`[${guild.id}]`); 
         }
@@ -71,7 +71,6 @@ client.on('message', msg => {
     let msg_array = msg.content.split(" ");
     let cmd = msg_array[0];
     let args = msg_array.slice(1);
-    console.log(msg_array, args, cmd)
 
     if (cmd.substr(0,prefix.length) === prefix) { 
         // Execute file

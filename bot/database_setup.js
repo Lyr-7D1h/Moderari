@@ -29,12 +29,15 @@ let db = new sqlite3.Database('../moderari.db',(err) => {
  */
 db.serialize(function() { 
     db.run(`CREATE TABLE IF NOT EXISTS servers (
-        id INT NOT NULL, 
+        id INT UNIQUE NOT NULL, 
         server_name VARCHAR NOT NULL,
+        icon_url VARCHAR,
+        created_at VARCHAR,
         region VARCHAR,
-        verification_level INT,
-        channels VARCHAR, 
+        verification_level INT, 
         owner_id INT NOT NULL,
+        owner_name VARCHAR NOT NULL,
+        channels VARCHAR,
         users VARCHAR
     )`, (err) => rhandler(err));
 
