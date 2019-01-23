@@ -9,6 +9,7 @@ router.get('/', function(req, res, next) {
     res.send(`This is Moderari's API Path, DM if you need details`)
 });
 
+
 router.get('/system', function(req, res, next) {
     let info = {
         "total_mem": os.totalmem(),
@@ -17,7 +18,7 @@ router.get('/system', function(req, res, next) {
         "cpu": os.cpus()
     }
     res.send(info)
-    
+
     setTimeout(() => {
     if (!res.headersSent) {
         res.send('Nothing found');
@@ -25,6 +26,7 @@ router.get('/system', function(req, res, next) {
     }
     }, 2000);
 });
+
 
 router.get('/servers', function(req, res, next) {
     db.all('SELECT * FROM servers', (err, rows) => {
@@ -40,6 +42,7 @@ router.get('/servers', function(req, res, next) {
     }, 2000);
 });
 
+
 router.get('/users', function(req, res, next) {
     db.all('SELECT users FROM servers', (err, rows) => {
         rhandler(err);
@@ -53,6 +56,20 @@ router.get('/users', function(req, res, next) {
     }
     }, 2000);
 });
+
+router.get('/news', function(req, res, next) {
+    db.all('SELECT * FROM news', (err, rows) => {
+        rhandler(err);
+        res.send(rows);
+    });
+    setTimeout(() => { 
+    if (!res.headersSent) {
+        res.send('Nothing found');
+        res.status(404);
+    }
+    }, 2000);
+});
+
 
 let rhandler = (err) => {
     if (err) {

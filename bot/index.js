@@ -37,12 +37,12 @@ client.on('ready', () => {
     console.log(`logged in as`,'\x1b[31m', `${client.user.tag}!`, `\x1b[0m`);
     console.log("\nActive servers: ") //   cyan: \x1b[36m   yellow: "\x1b[33m"
     client.guilds.map(function(guild, k){
-        database.add_server(guild);
         if (guild.available) {
             console.log(`\x1b[32m`,`${guild.name}`,`\x1b[0m`,`[${guild.id}]`); 
         } else {
             console.log(`\x1b[31m`,`${guild.name}`,`\x1b[0m`,`[${guild.id}]`); 
         }
+        database.add_server(guild);
         // guild.channels.map(function(channel){
         //     console.log(channel.id);
         // })

@@ -61,47 +61,37 @@ let load_server_buttons = () => {
     })
 }
 
-// function get_news() {
-//     console.log("requesting news data");
-//     $.get("/data/news", 
-//     function (data, textStatus, jqXHR) {
-//         if (textStatus === 'success') {
-//             load_news(data);
-//         }
-//     },
-//     "JSON"
-// );
-// }
-// function load_news(data) {
-//     if (data) {
-//         for (var i = data.length - 1; i >= 0; i--) {
-//             let news = data[i]
-//             let title = news.title;
-//             let description = news.description.replace(/(?:\r\n|\r|\n)/g, '<br>');
-//             let date = news.date;
-//             let categories = news.category.split(',');
-//             let category_html = '';
-//             for (k in categories) {
-//                 let category = categories[k]
-//                 console.log(category);
-//                 category_html += `<div class="tag ${category.toLowerCase()}">${category}</div>`;
-//             }
-//             $('main').append(`
-//             <div class="news_block">
-//             ${category_html}
-//             <div class="date">${date}</div>
-//             <br>
-//             <h2>${title}</h2>
-//             <p>
-//                 ${description}
-//             </p>
-//             </div>
-//             `);            
-//         }
-//         load_buttons();
-//     }
-//     console.log("Server Page Loaded..")
-// }
+
+let load_news = () => {
+    http_get("/data/news", (data) => {
+        if (data) {
+            for (var i = data.length - 1; i >= 0; i--) {
+                let news = data[i]
+                let title = news.title;
+                let description = news.description.replace(/(?:\r\n|\r|\n)/g, '<br>');
+                let date = news.date;
+                let categories = news.category.split(',');
+                let category_html = '';
+                for (k in categories) {
+                    let category = categories[k]
+                    console.log(category);
+                    category_html += `<div class="tag ${category.toLowerCase()}">${category}</div>`;
+                }
+                $('main').append(`
+                <div class="news_block">
+                ${category_html}
+                <div class="date">${date}</div>
+                <br>
+                <h2>${title}</h2>
+                <p>
+                    ${description}
+                </p>
+                </div>
+                `);            
+            }
+        }
+    });
+}
 
 $(document).ready(function () {
     let page = document.title.toLocaleLowerCase().substr(12);
@@ -112,7 +102,7 @@ $(document).ready(function () {
     if (page === 'servers') { //if page is servers
         load_servers();
     } else if (page === 'news') {
-        get_news();
+        load_news();
     }
 });
 

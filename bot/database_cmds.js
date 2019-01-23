@@ -15,20 +15,23 @@ let db = new sqlite3.Database('../moderari.db',(err) => {
 });
 
 module.exports.add_server = (guild) => {
+    
+    let server_name = guild.name.replace(/['"]/g, ""); // No quotes in server name allowed preventing sql injection
+    let owner_name = guild.owner.displayName.replace(/['"]/g, /["]/g); // No quotes in owner name allowed preventing sql injection
+
     let channels = []
     guild.channels.map((v) => {
         channels.push(v.id);
     })
     let users = []
     guild.members.map((v) => {
-        // console.log(v.user.bot);
         if (!(v.user.bot)) { // Check if there are no bots
             users.push(v.id);
         }
     })
     users = JSON.stringify(users);
     channels = JSON.stringify(channels);
-    // console.log(users, channels);
+    // console.log(guild.id, server_name)
     db.serialize(() => {
         db.all(`SELECT * FROM servers WHERE id = ${guild.id}`, (err, rows) => { rhandler(err);
             if (rows.length > 1) { // REMOVE DUPLICATES
@@ -37,7 +40,7 @@ module.exports.add_server = (guild) => {
                 db.run(`INSERT INTO servers (id, server_name, available, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
                 VALUES (
                     ${guild.id}, 
-                    '${guild.name}',
+                    '${server_name}',
                     ${guild.available},
                     '${guild.iconURL}',
                     '${guild.createdAt}',
@@ -45,16 +48,16 @@ module.exports.add_server = (guild) => {
                     ${guild.verificationLevel}, 
                     '${channels}', 
                     ${guild.ownerID}, 
-                    '${guild.owner.displayName}',
+                    '${owner_name}',
                     '${users}'
                 )`, (err) => { rhandler(err)});
             } 
             if (!(rows.length == 1)) { // ADD IF DOESN'T YET EXIST
-                console.log("ADDING SERVER")
+                console.log("ADDING SERVER "+server_name)
                 db.run(`INSERT INTO servers (id, server_name, available, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
                 VALUES (
                     ${guild.id}, 
-                    '${guild.name}',
+                    '${server_name}',
                     ${guild.available},
                     '${guild.iconURL}',
                     '${guild.createdAt}',
@@ -62,7 +65,7 @@ module.exports.add_server = (guild) => {
                     ${guild.verificationLevel}, 
                     '${channels}', 
                     ${guild.ownerID}, 
-                    '${guild.owner.displayName}',
+                    '${owner_name}',
                     '${users}'
                 )`, (err) => { rhandler(err)});         
             }

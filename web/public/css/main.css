@@ -36,6 +36,7 @@ body {
       list-style: none; }
     body nav li {
       font-size: 1.1em;
+      cursor: pointer;
       color: white;
       float: left;
       margin-right: 15px;
@@ -45,6 +46,8 @@ body {
         z-index: 5;
         background-color: #8A0808;
         transition-duration: 1s; }
+    body nav .login_block {
+      float: right; }
   body h1 {
     color: #8A0808; }
   body a {
