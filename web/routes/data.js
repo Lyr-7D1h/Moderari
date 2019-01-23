@@ -31,7 +31,9 @@ router.get('/system', function(req, res, next) {
 router.get('/servers', function(req, res, next) {
     db.all('SELECT * FROM servers', (err, rows) => {
         rhandler(err);
-        res.send(rows);
+        if (rows.length > 0) {
+            res.send(rows);   
+        }
     })
     
     setTimeout(() => {
@@ -46,7 +48,9 @@ router.get('/servers', function(req, res, next) {
 router.get('/users', function(req, res, next) {
     db.all('SELECT users FROM servers', (err, rows) => {
         rhandler(err);
-        res.send(rows);
+        if (rows.length > 0) {
+            res.send(rows);
+        }
     })
     
     setTimeout(() => { 
@@ -60,7 +64,9 @@ router.get('/users', function(req, res, next) {
 router.get('/news', function(req, res, next) {
     db.all('SELECT * FROM news', (err, rows) => {
         rhandler(err);
-        res.send(rows);
+        if (rows.length > 0) {
+            res.send(rows);
+        }
     });
     setTimeout(() => { 
     if (!res.headersSent) {
@@ -69,6 +75,8 @@ router.get('/news', function(req, res, next) {
     }
     }, 2000);
 });
+
+
 
 
 let rhandler = (err) => {

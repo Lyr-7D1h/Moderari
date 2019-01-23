@@ -34,6 +34,7 @@ module.exports.add_server = (guild) => {
     // console.log(guild.id, server_name)
     db.serialize(() => {
         db.all(`SELECT * FROM servers WHERE id = ${guild.id}`, (err, rows) => { rhandler(err);
+            // db.prepare("INSERT INTO servers VALUES (?,?,?,?,?,?,?,?,?,?,?)");
             if (rows.length > 1) { // REMOVE DUPLICATES
                 db.run(`DELETE FROM servers WHERE id = ${guild.id}`, (err) => { rhandler(err)});
                 console.log("REMOVING SERVER")
@@ -51,8 +52,7 @@ module.exports.add_server = (guild) => {
                     '${owner_name}',
                     '${users}'
                 )`, (err) => { rhandler(err)});
-            } 
-            if (!(rows.length == 1)) { // ADD IF DOESN'T YET EXIST
+            } else if (!(rows.length == 1)) { // ADD IF DOESN'T YET EXIST
                 console.log("ADDING SERVER "+server_name)
                 db.run(`INSERT INTO servers (id, server_name, available, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
                 VALUES (

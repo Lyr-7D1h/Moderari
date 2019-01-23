@@ -19,7 +19,7 @@ let db = new sqlite3.Database('../moderari.db',(err) => {
     if (err) {console.log(err)}
 });
 if (config.debug == true) { 
-    if (fs.existsSync('../moderari.db')) {
+    if (fs.existsSync('../moderari.db')) { // If Database exsists
         // fs.unlink('../moderari.db');
         // console.log("database removed")
         db.run(`DROP TABLE servers`)
@@ -43,7 +43,7 @@ db.serialize(function() {
         channels VARCHAR,
         users VARCHAR
     )`, (err) => rhandler(err));
-    
+
     db.run(`CREATE TABLE IF NOT EXISTS news (
         id INT UNIQUE NOT NULL, 
         author VARCHAR NOT NULL,
