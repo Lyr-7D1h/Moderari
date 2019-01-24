@@ -69,20 +69,20 @@ let load_news = () => {
                 let news = data[i]
                 let title = news.title;
                 let description = news.description.replace(/(?:\r\n|\r|\n)/g, '<br>');
-                let date = news.date;
-                let categories = news.category.split(',');
+                let date = news.created_at;
+
                 let category_html = '';
+                let categories = JSON.parse(news.categories)
+                console.log(categories)
                 for (k in categories) {
-                    let category = categories[k]
-                    console.log(category);
-                    category_html += `<div class="tag ${category.toLowerCase()}">${category}</div>`;
+                    category_html += `<div class="tag ${categories[k].toLowerCase()}">${categories[k].toUpperCase()}</div>`;
                 }
                 $('main').append(`
-                <div class="news_block">
+                <div id="news_${news.id}" class="news_block">
                 ${category_html}
                 <div class="date">${date}</div>
                 <br>
-                <h2>${title}</h2>
+                <h1>${title}</h1>
                 <p>
                     ${description}
                 </p>
@@ -104,5 +104,16 @@ $(document).ready(function () {
     } else if (page === 'news') {
         load_news();
     }
+
+    // Login
+    $(`#login`).on('click', () => {
+        $(`#login`).html('Redirecting to Discord Login..')
+        setTimeout( () => {
+            $(`#login`).html('<i class="fab fa-discord"></i> Login');
+            window.location = "/auth/discord";
+            //https://discordapp.com/oauth2/authorize?client_id=536672463929737229&redirect_uri=http%3A%2F%2Fmoderari.ivelthoven.nl&response_type=code&scope=email%20gdm.join%20messages.read
+            // https://discordapp.com/api/oauth2/authorize?client_id=536672463929737229&redirect_uri=http%3A%2F%2Flocalhost%3A3000&response_type=code&scope=email
+        }, 1000)
+    })
 });
 

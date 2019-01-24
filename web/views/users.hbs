@@ -1,0 +1,17 @@
+<ul class="sec_nav">
+    <li id="account_info">Info</li>
+    <li id="account_servers">Servers</li>
+    <li id="account_manage">Manage Servers</li>
+</ul>
+<main>
+    <div>
+        <img src="https://cdn.discordapp.com/avatars/{{session.passport.user.id}}/{{session.passport.user.avatar}}.png" alt="User Avatar">
+        <h1>Welcome {{session.passport.user.username}}</h1>
+        <h2>{{session.passport.user.provider}}</h2>
+        Language: {{session.passport.user.locale}}<br>
+        2 Factor enabled: {{session.passport.user.mfa_enabled}}<br>
+        User Tag: {{session.passport.user.username}}#{{session.passport.user.discriminator}}<br>
+        Email: {{session.passport.user.email}}
+    </div>
+</main>
+<script src="/js/account.js"></script>

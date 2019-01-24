@@ -5,6 +5,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
 
+const uuidv4 = require('uuid/v4');
+const session = require('express-session')
+const passport = require('passport');
+const DiscordStrategy = require('passport-discord').Strategy;
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var dataRouter = require('./routes/data');
@@ -26,6 +31,49 @@ app.use(sassMiddleware({
   sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+/**
+ * Express Sessions
+ */
+app.use(session({
+  genid: function(req) {
+    return uuidv4() // use UUIDs for session IDs
+  },
+  resave: false,
+  saveUninitialized: false,
+  secret: '!+En}Dk*[(5>6qZ\`syR^F\`-N'
+}))
+/**
+ * PASSPORT
+ */
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+passport.use(new DiscordStrategy({
+  clientID: '536672463929737229',
+  clientSecret: 'bm4LYpVJIctzmqLXhbsOW0MMEbn5z2gM',
+  callbackURL: 'http://localhost:3000/auth/discord/callback',
+  scope: ['email']
+},
+function(accessToken, refreshToken, profile, cb) {
+  console.log('SAVING ' + profile);
+  let err;
+  return cb(err,profile)
+  // User.findOrCreate({ discordId: profile.id }, function(err, user) {
+  //     return cb(err, user);
+  // });
+}));
+
+app.use(function(req, res, next){
+  res.locals.session = req.session;
+  console.log(res.locals.session);
+  next();
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
