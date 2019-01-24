@@ -48,6 +48,10 @@ body {
     background-color: #222; }
     body nav .active {
       background-color: #8A0808; }
+    body nav #login_display {
+      position: fixed;
+      top: 10px;
+      right: 10px; }
     body nav p {
       font-family: 'Ubuntu Mono';
       margin: 0;
@@ -140,5 +144,18 @@ body {
         font-size: 20px; }
       body main .news_block h1 {
         text-align: center; }
+    body main .page {
+      background-color: #222;
+      box-shadow: 0px 0px 10px black;
+      padding: 20px;
+      overflow: auto; }
+      body main .page h1, body main .page h2 {
+        display: inline; }
+      body main .page img {
+        position: relative;
+        float: right;
+        top: 0;
+        right: 0;
+        width: 10%; }
 
 /*# sourceMappingURL=main.css.map */

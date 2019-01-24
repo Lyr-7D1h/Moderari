@@ -4,8 +4,7 @@ var router = express.Router();
 /* GET users listing. */
 router.get('/*', function(req, res, next) {
     /* DEBUG*/
-    // req.user = { user: 
-    //   { 
+    // req.user = { 
     //     username: 'Exsite',
     //     verified: true,
     //     locale: 'en-GB',
@@ -18,21 +17,20 @@ router.get('/*', function(req, res, next) {
     //     provider: 'discord',
     //     accessToken: '8XoKcggsIeNErh9wNvwDMBrLcJENZq',
     //     fetchedAt: '2019-01-24T15:45:36.752Z' 
-    //   } 
-    // }
+    //   }; 
   console.log('========================================================================================================================')
   console.log(req.user);
   console.log('========================================================================================================================')
   if (req.user) {
     console.log(req.params['0'], req.user.id);
-    if (req.params['0'] == req.user.id) {
+    if (toString(req.params['0']) === toString(req.user.id)) {
       console.log('render')
       res.render('users', {title: 'Moderari || Account', user: req.user}); 
     }
   }
   setTimeout(() => {
     if (!res.headersSent) {
-        res.redirect('/');
+      res.redirect('/');
     }
     }, 2000);
 });

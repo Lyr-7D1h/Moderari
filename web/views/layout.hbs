@@ -12,15 +12,19 @@
 <body>
   <div id="logo"></div>
   <nav>
+    {{#if user}}
+    <span id="login_display">
+      Logged in as <span style="color:rgb(100,100,150)">{{user.username}}</span>
+    </span>
+    {{/if}}
     <h1>Moderari</h1>
     <p><i>Created by Exsite</i></p>
     <ul>
       <a href="/"><li id="home">Home</li></a>
       <a href="/servers/"><li id="servers">Servers</li></a>
       <a href="/news/"><li id="news">News</li></a>
-      {{#if session.passport.user}}
+      {{#if user}}
       <a href="/users/{{session.passport.user.id}}"><li class="account" id="account">Account</li></a>
-
       <a href="/logout/"><li class="login_block" id="news">Logout</li></a>
       {{else}}
       <li class="login_block" id="login"><i class="fab fa-discord"></i> Login</li>

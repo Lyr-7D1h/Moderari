@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
   if (req.session.passport) {
     // console.log(req.session.passport.user);
   }
-  res.render('index', { title: 'Moderari || Home' });
+  res.render('index', { title: 'Moderari || Home', user: req.user });
 });
 
 /**
@@ -25,11 +25,11 @@ router.get('/auth/discord/callback',
 );
 
 router.get('/servers', function(req, res, next) {
-  res.render('servers', { title: 'Moderari || Servers' });
+  res.render('servers', { title: 'Moderari || Servers', user: req.user });
 });
 
 router.get('/news', function(req, res, next) {
-  res.render('news', { title: 'Moderari || News' });
+  res.render('news', { title: 'Moderari || News', user: req.user });
 });
 
 

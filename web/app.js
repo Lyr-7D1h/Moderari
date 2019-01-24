@@ -6,7 +6,8 @@ var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
 
 const uuidv4 = require('uuid/v4');
-const session = require('express-session')
+// const session = require('express-session')
+const cookieSession = require('cookie-session');
 const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
 
@@ -35,13 +36,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 /**
  * Express Sessions
  */
-app.use(session({
-  genid: function(req) {
-    return uuidv4() // use UUIDs for session IDs
-  },
-  resave: false,
-  saveUninitialized: false,
-  secret: '!+En}Dk*[(5>6qZ\`syR^F\`-N'
+app.use(cookieSession({
+  name: 'session',
+  maxAge: 24 * 60 * 60 * 1000,
+  keys: ['!+En}Dk*[(5>6qZ\`syR^F\`-N', '!+En}Dk*[(5>6qZ\`syR^F\`-N']
 }))
 /**
  * PASSPORT
@@ -71,7 +69,7 @@ function(accessToken, refreshToken, profile, cb) {
 
 app.use(function(req, res, next){
   res.locals.session = req.session;
-  // console.log(res.locals.session);
+  console.log(res.locals.session);
   next();
 });
 

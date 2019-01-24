@@ -6,13 +6,14 @@
 </ul>
 <main>
     <div class="page" id="page_info">
-        <img src="https://cdn.discordapp.com/avatars/{{session.passport.user.id}}/{{session.passport.user.avatar}}.png" alt="User Avatar">
-        <h1>Welcome {{user.username}}</h1>
-        <h2>{{user.provider}}</h2>
-        Language: {{session.passport.user.locale}}<br>
-        2 Factor enabled: {{session.passport.user.mfa_enabled}}<br>
-        User Tag: {{session.passport.user.username}}#{{session.passport.user.discriminator}}<br>
-        Email: {{session.passport.user.email}}
+        <h1>Welcome {{user.username}}</h1><br>
+        <p>Here you can see your account information<br>and things you might want to know regarding your server status</p><br>
+        <img src="https://cdn.discordapp.com/avatars/{{user.id}}/{{user.avatar}}.png" alt="User Avatar">
+        <h2 style="color:#7289da">{{user.provider}}</h2><br>
+        Language: {{user.locale}}<br>
+        2 Factor enabled: {{user.mfa_enabled}}<br>
+        User Tag: {{user.username}}#{{user.discriminator}}<br>
+        Email: {{user.email}}
     </div>
     <div class="page" id="page_servers">
         <h1>Registered User on:</h1>
