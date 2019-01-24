@@ -23,7 +23,8 @@ if (config.debug == true) {
         // fs.unlink('../moderari.db');
         // console.log("database removed")
         db.run(`DROP TABLE servers`)
-        console.log('servers table removed');
+        db.run(`DROP TABLE users`)
+        console.log('servers, users table removed');
     }
 }
 /**
@@ -41,7 +42,7 @@ db.serialize(function() {
         owner_id INT NOT NULL,
         owner_name VARCHAR NOT NULL,
         channels VARCHAR,
-        users VARCHAR
+        users
     )`, (err) => rhandler(err));
 
     db.run(`CREATE TABLE IF NOT EXISTS news (
@@ -51,6 +52,19 @@ db.serialize(function() {
         title VARCHAR NOT NULL,
         description VARCHAR,
         categories VARCHAR
+    )`, (err) => rhandler(err));
+    db.run(`CREATE TABLE IF NOT EXISTS users (
+        id INT NOT NULL, 
+        username VARCHAR NOT NULL,
+        servers VARCHAR NOT NULL,
+        verified_at VARCHAR,
+        verified INT NOT NULL,
+        email_verified INT NOT NULL,
+        avatar VARCHAR,
+        email VARCHAR,
+        descriminator INT,
+        access_token VARCHAR,
+        is_admin INT
     )`, (err) => rhandler(err));
 
     // db.run(`CREATE TABLE IF NOT EXISTS guild (server_id VARCHAR NOT NULL, channels VARCHAR, owner_id VARCHAR NOT NULL)`, (err) => rhandler(err));

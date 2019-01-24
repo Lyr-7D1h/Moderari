@@ -72,3 +72,76 @@ module.exports.add_server = (guild) => {
         })
     });
 }
+
+
+
+
+
+module.exports.add_server_users = (all_members) => {
+    all_members_unique = [];
+    for (i in all_members) { // Make sure member list is unique
+        let member = all_members[i];
+        let allowed = true;
+        for (k in all_members_unique) {
+            if (member.id == all_members_unique[k].id) {
+                allowed = false;
+                // console.log('double '+ member.displayName);
+            }
+        }
+        if (allowed && !(member.user.bot)) {
+            // console.log(member.displayName)
+            all_members_unique.push(member);
+        }
+    }
+    for (i in all_members_unique) {
+        // console.log(all_members_unique[i].displayName);
+        let member = all_members_unique[i];
+        db.serialize(() => {
+            db.all(`SELECT * FROM users WHERE id=${member.id}`, (err, rows) => {
+                rhandler(err);
+                if (!(rows.length > 0)) {
+                    db.all(`SELECT * FROM servers`, (err,rows) => {
+                        rhandler(err);
+                        let servers = [];
+                        if (rows.length > 0) {
+                            for (i in rows) {
+                                let guild = rows[i];
+                                let user_list = JSON.parse(rows[i].users);
+                                for (i in user_list) {
+                                    // console.log(guild);
+                                    if (user_list[i] == member.id) {
+                                        let is_owner = false;
+                                        console.log(guild.owner_id, member.id);
+                                        if (guild.owner_id == member.id) {
+                                            is_owner = true;
+                                        }
+                                        servers.push({
+                                            server_name: guild.server_name,
+                                            server_id: guild.id,
+                                            is_owner:  is_owner
+                                        })
+                                    }
+                                }
+                            }
+                        }
+                        server = JSON.stringify(servers);
+                        // console.log('Adding user ' + member.id);
+                        // console.log(server);
+                        db.run(`INSERT INTO users (id, username, servers, verified, email_verified) 
+                        VALUES (
+                        '${member.id}',
+                        '${member.displayName}',
+                        '${server}',
+                        false,
+                        false
+                        )`, (err) => { rhandler(err)}
+                        );
+                    })
+                } 
+                // else {
+                //     console.log('Multiple servers '+ member.id);
+                // }
+            })   
+        });
+    }
+}

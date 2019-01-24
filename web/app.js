@@ -11,9 +11,14 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
 
+const database = require('./database');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var dataRouter = require('./routes/data');
+
+// USE THIS TO CHANGE MODE:
+//export NODE_ENV=production
 
 var app = express();
 
@@ -41,6 +46,8 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000,
   keys: ['!+En}Dk*[(5>6qZ\`syR^F\`-N', '!+En}Dk*[(5>6qZ\`syR^F\`-N']
 }))
+
+
 /**
  * PASSPORT
  */
@@ -52,6 +59,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
+
 passport.use(new DiscordStrategy({
   clientID: '536672463929737229',
   clientSecret: 'bm4LYpVJIctzmqLXhbsOW0MMEbn5z2gM',
@@ -59,17 +67,20 @@ passport.use(new DiscordStrategy({
   scope: ['email']
 },
 function(accessToken, refreshToken, profile, cb) {
-  console.log('SAVING ' + profile);
+  console.log('SAVING');
+  console.log(profile);
   let err;
   return cb(err,profile)
-  // User.findOrCreate({ discordId: profile.id }, function(err, user) {
-  //     return cb(err, user);
-  // });
 }));
+
+
+
 
 app.use(function(req, res, next){
   res.locals.session = req.session;
-  console.log(res.locals.session);
+  if (res.locals.session) {
+    console.log(res.locals.session);
+  }
   next();
 });
 

@@ -2,6 +2,10 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const config = require('./config.json');
 
+if (config.debug) {
+    console.log('\x1b[36m%s\x1b[0m','DEBUG ENABLED');
+}
+
 require('./database_setup'); //data base setup
 const database = require('./database_cmds')
 
@@ -36,6 +40,8 @@ client.on('ready', () => {
 
     console.log(`logged in as`,'\x1b[31m', `${client.user.tag}!`, `\x1b[0m`);
     console.log("\nActive servers: ") //   cyan: \x1b[36m   yellow: "\x1b[33m"
+
+    let all_members = [];
     client.guilds.map(function(guild, k){
         if (guild.available) {
             console.log(`\x1b[32m`,`${guild.name}`,`\x1b[0m`,`[${guild.id}]`); 
@@ -43,13 +49,13 @@ client.on('ready', () => {
             console.log(`\x1b[31m`,`${guild.name}`,`\x1b[0m`,`[${guild.id}]`); 
         }
         database.add_server(guild);
-        // guild.channels.map(function(channel){
-        //     console.log(channel.id);
-        // })
-        // guild.fetchMembers()
-        //     .then(console.log)
-        //     .catch(console.error);
+        // database.add_server_users(guild)
+        let members = guild.members.array();
+        for (var i = 0; i < members.length; ++i) {
+            all_members.push(members[i]);
+        }
     })
+    database.add_server_users(all_members)
     console.log('\n\n')
 });
 

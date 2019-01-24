@@ -22,11 +22,9 @@ router.get('/*', function(req, res, next) {
   console.log(req.user);
   console.log('========================================================================================================================')
   if (req.user) {
-    console.log(req.params['0'], req.user.id);
-    if (toString(req.params['0']) === toString(req.user.id)) {
-      console.log('render')
+    if (req.params['0'] === req.user.id) {
       res.render('users', {title: 'Moderari || Account', user: req.user}); 
-    }
+    } 
   }
   setTimeout(() => {
     if (!res.headersSent) {
