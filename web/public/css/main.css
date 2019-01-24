@@ -27,6 +27,10 @@ body {
         background-color: orange;
         cursor: pointer;
         transition: 1s; }
+    body .sec_nav #account_contact {
+      float: right; }
+    body .sec_nav .active {
+      background-color: orange; }
   body #logo {
     background-image: url("/images/moderari.png");
     background-size: cover;

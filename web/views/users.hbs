@@ -1,17 +1,27 @@
 <ul class="sec_nav">
-    <li id="account_info">Info</li>
-    <li id="account_servers">Servers</li>
-    <li id="account_manage">Manage Servers</li>
+    <li class="account_nav" id="account_info">Info</li>
+    <li class="account_nav" id="account_servers">Servers</li>
+    <li class="account_nav" id="account_manage">Manage Servers</li>
+    <li class="account_nav" id="account_contact">Contact</li>
 </ul>
 <main>
-    <div>
+    <div class="page" id="page_info">
         <img src="https://cdn.discordapp.com/avatars/{{session.passport.user.id}}/{{session.passport.user.avatar}}.png" alt="User Avatar">
-        <h1>Welcome {{session.passport.user.username}}</h1>
-        <h2>{{session.passport.user.provider}}</h2>
+        <h1>Welcome {{user.username}}</h1>
+        <h2>{{user.provider}}</h2>
         Language: {{session.passport.user.locale}}<br>
         2 Factor enabled: {{session.passport.user.mfa_enabled}}<br>
         User Tag: {{session.passport.user.username}}#{{session.passport.user.discriminator}}<br>
         Email: {{session.passport.user.email}}
+    </div>
+    <div class="page" id="page_servers">
+        <h1>Registered User on:</h1>
+    </div>
+    <div class="page" id="page_manage">
+        <h1>Manage your servers:</h1>
+    </div>
+    <div class="page" id="page_contact">
+        <h1>Contact Moderari!</h1>
     </div>
 </main>
 <script src="/js/account.js"></script>

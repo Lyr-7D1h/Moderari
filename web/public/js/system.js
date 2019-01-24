@@ -51,5 +51,4 @@ $(document).ready(() => {
     setInterval(() => {
         update_system_stats();
     }, 1000)
-    console.log('SYSTEM JS LOADED..')
 })
