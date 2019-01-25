@@ -23,8 +23,8 @@ if (config.debug == true) {
         // fs.unlink('../moderari.db');
         // console.log("database removed")
         db.run(`DROP TABLE servers`)
-        db.run(`DROP TABLE users`)
-        console.log('servers, users table removed');
+        // db.run(`DROP TABLE users`)
+        console.log('servers table removed');
     }
 }
 /**

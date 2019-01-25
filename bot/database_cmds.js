@@ -35,9 +35,8 @@ module.exports.add_server = (guild) => {
     db.serialize(() => {
         db.all(`SELECT * FROM servers WHERE id = ${guild.id}`, (err, rows) => { rhandler(err);
             // db.prepare("INSERT INTO servers VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-            if (rows.length > 1) { // REMOVE DUPLICATES
-                db.run(`DELETE FROM servers WHERE id = ${guild.id}`, (err) => { rhandler(err)});
-                console.log("REMOVING SERVER")
+            if (!(rows.length > 0)) {
+                console.log('ADDING SERVER '+server_name);
                 db.run(`INSERT INTO servers (id, server_name, available, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
                 VALUES (
                     ${guild.id}, 
@@ -51,23 +50,8 @@ module.exports.add_server = (guild) => {
                     ${guild.ownerID}, 
                     '${owner_name}',
                     '${users}'
-                )`, (err) => { rhandler(err)});
-            } else if (!(rows.length == 1)) { // ADD IF DOESN'T YET EXIST
-                console.log("ADDING SERVER "+server_name)
-                db.run(`INSERT INTO servers (id, server_name, available, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
-                VALUES (
-                    ${guild.id}, 
-                    '${server_name}',
-                    ${guild.available},
-                    '${guild.iconURL}',
-                    '${guild.createdAt}',
-                    '${guild.region}', 
-                    ${guild.verificationLevel}, 
-                    '${channels}', 
-                    ${guild.ownerID}, 
-                    '${owner_name}',
-                    '${users}'
-                )`, (err) => { rhandler(err)});         
+                )`, (err) => { rhandler(err)}
+                ); 
             }
         })
     });
@@ -111,7 +95,7 @@ module.exports.add_server_users = (all_members) => {
                                     // console.log(guild);
                                     if (user_list[i] == member.id) {
                                         let is_owner = false;
-                                        console.log(guild.owner_id, member.id);
+                                        // console.log(guild.owner_id, member.id);
                                         if (guild.owner_id == member.id) {
                                             is_owner = true;
                                         }
@@ -119,19 +103,19 @@ module.exports.add_server_users = (all_members) => {
                                             server_name: guild.server_name,
                                             server_id: guild.id,
                                             is_owner:  is_owner
-                                        })
+                                        });
                                     }
                                 }
                             }
                         }
-                        server = JSON.stringify(servers);
-                        // console.log('Adding user ' + member.id);
-                        // console.log(server);
+                        servers = JSON.stringify(servers);
+                        console.log('ADDING USER ' + member.id);
+                        // console.log(member.displayName, servers);
                         db.run(`INSERT INTO users (id, username, servers, verified, email_verified) 
                         VALUES (
                         '${member.id}',
                         '${member.displayName}',
-                        '${server}',
+                        '${servers}',
                         false,
                         false
                         )`, (err) => { rhandler(err)}
@@ -145,3 +129,43 @@ module.exports.add_server_users = (all_members) => {
         });
     }
 }
+
+
+// db.serialize(() => {
+//     db.all(`SELECT * FROM servers WHERE id=${member.id}`, (err, rows) => {
+//         rhandler(err);
+//         if (!(rows.length > 0)) { //Make sure you don't add doubles
+//             db.all(`SELECT * FROM servers`, (err,rows) => {
+//                 rhandler(err);
+//                 server = JSON.stringify(servers);
+//                 console.log(member.displayName, server);
+//                 db.run(`INSERT INTO users (id, username, servers, verified, email_verified) 
+//                 VALUES (
+//                 '${member.id}',
+//                 '${member.displayName}',
+//                 '${server}',
+//                 false,
+//                 false
+//                 )`, (err) => { rhandler(err)}
+//                 );
+//             })
+//         } 
+//     })   
+// });
+
+
+// db.run(`INSERT INTO servers (id, server_name, available, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
+// VALUES (
+//     ${guild.id}, 
+//     '${server_name}',
+//     ${guild.available},
+//     '${guild.iconURL}',
+//     '${guild.createdAt}',
+//     '${guild.region}', 
+//     ${guild.verificationLevel}, 
+//     '${channels}', 
+//     ${guild.ownerID}, 
+//     '${owner_name}',
+//     '${users}'
+// )`, (err) => { rhandler(err)}
+// ); 
