@@ -34,7 +34,7 @@ let update_system_stats = () => {
                 }
 
                 document.getElementById(`system_core${i}`).innerHTML = `
-                CPU CORE <b><span style="font-size:30px;">${Number(i) + 1}</span></b>
+                CPU CORE <b><span style="font-size:30px;color:#8A0808;">${Number(i) + 1}</span></b>
                 <br><br>
                 Model: ${core.model}
                 <br>

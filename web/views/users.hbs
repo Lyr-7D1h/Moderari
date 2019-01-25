@@ -10,10 +10,12 @@
         <p>Here you can see your account information<br>and things you might want to know regarding your server status</p><br>
         <img src="https://cdn.discordapp.com/avatars/{{user.id}}/{{user.avatar}}.png" alt="User Avatar">
         <h2 style="color:#7289da">{{user.provider}}</h2><br>
-        Language: {{user.locale}}<br>
+        Language: {{user.language}}<br>
         2 Factor enabled: {{user.mfa_enabled}}<br>
         User Tag: {{user.username}}#{{user.discriminator}}<br>
+        {{#if user.email}}
         Email: {{user.email}}
+        {{/if}}
     </div>
     <div class="page" id="page_servers">
         <h1>Registered User on:</h1>
