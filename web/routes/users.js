@@ -22,7 +22,8 @@ router.get('/*', function(req, res, next) {
   console.log(req.user);
   console.log('========================================================================================================================')
   if (req.user) {
-    if (req.params['0'] === req.user.id) {
+    console.log(req.params['0'], req.user.id);
+    if (toString(req.params['0']) === toString(req.user.id)) {
       res.render('users', {title: 'Moderari || Account', user: req.user}); 
     } 
   }

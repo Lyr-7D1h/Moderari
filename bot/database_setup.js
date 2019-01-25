@@ -23,8 +23,8 @@ if (config.debug == true) {
         // fs.unlink('../moderari.db');
         // console.log("database removed")
         db.run(`DROP TABLE servers`)
-        // db.run(`DROP TABLE users`)
-        console.log('servers table removed');
+        db.run(`DROP TABLE users`)
+        console.log('servers, users table removed');
     }
 }
 /**
@@ -57,13 +57,15 @@ db.serialize(function() {
         id INT NOT NULL, 
         username VARCHAR NOT NULL,
         servers VARCHAR NOT NULL,
-        verified_at VARCHAR,
+        verified_at,
         verified INT NOT NULL,
         email_verified INT NOT NULL,
         avatar VARCHAR,
         email VARCHAR,
-        descriminator INT,
-        access_token VARCHAR,
+        discriminator INT,
+        language VARCHAR,
+        mfa_enabled INT,
+        flags INT,
         is_admin INT
     )`, (err) => rhandler(err));
 

@@ -72,9 +72,8 @@ function(accessToken, refreshToken, discord_profile, cb) {
     if (err) {
       console.log('[SQL LOGIN ERROR] '+err);
     }
-    console.log('SAVING');
     if (profile || err) {
-      console.log(profile);
+      // console.log(profile);
       return cb(err, profile);
     }
   })

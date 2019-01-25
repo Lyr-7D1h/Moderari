@@ -3,11 +3,36 @@ const sqlite3 = require('sqlite3');
 let db = new sqlite3.Database('../moderari.db',(err) => {rhandler(err)});
 
 module.exports.user_login = (discord_profile, callback) => {
-    console.log(discord_profile.id);
-    db.get(`SELECT * FROM users WHERE id = ${discord_profile.id}`, (err, row) => {
-        callback(err,row);
-    })
-    return callback()
+    console.log(discord_profile);
+    db.serialize(() => {
+        db.get(`SELECT * FROM users WHERE id = ${discord_profile.id}`, (err, row) => {
+            console.log('USER')
+            console.log(row)
+            if (row) {
+                if (row.verified === 0) { // First login isn't verified yet
+                    console.log('NEW LOGIN')
+                    db.run(`UPDATE users SET 
+                    verified = ${true},
+                    verified_at = '${discord_profile.fetchedAt}',
+                    email_verified = ${discord_profile.verified},
+                    avatar = '${discord_profile.avatar}',
+                    email = '${discord_profile.email}',
+                    discriminator = '${discord_profile.discriminator}',
+                    language = '${discord_profile.locale}',
+                    mfa_enabled = ${discord_profile.mfa_enabled},
+                    flags = ${discord_profile.flags},
+                    is_admin = ${false}
+                    WHERE id = ${discord_profile.id}`);
+                    db.get(`SELECT * FROM users WHERE id = ${discord_profile.id}`, (err, row) => {
+                        callback(err,row);
+                    })
+                } else {
+                    callback(err,row);
+                }
+            }
+        })
+        return callback()
+    });
 }
 
 
