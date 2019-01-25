@@ -1,6 +1,7 @@
 <ul class="sec_nav">
     <li class="account_nav" id="account_info">Info</li>
     <li class="account_nav" id="account_servers">Servers</li>
+    {{#if user.is_owner}}
     <li class="account_nav" id="account_manage">Manage Servers</li>
     <li class="account_nav" id="account_contact">Contact</li>
 </ul>

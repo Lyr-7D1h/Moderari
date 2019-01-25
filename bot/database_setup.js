@@ -62,6 +62,7 @@ db.serialize(function() {
         email_verified INT NOT NULL,
         avatar VARCHAR,
         email VARCHAR,
+        is_owner INT,
         discriminator INT,
         language VARCHAR,
         mfa_enabled INT,

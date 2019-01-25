@@ -87,6 +87,7 @@ module.exports.add_server_users = (all_members) => {
                     db.all(`SELECT * FROM servers`, (err,rows) => {
                         rhandler(err);
                         let servers = [];
+                        let is_a_owner = false;
                         if (rows.length > 0) {
                             for (i in rows) {
                                 let guild = rows[i];
@@ -97,6 +98,7 @@ module.exports.add_server_users = (all_members) => {
                                         let is_owner = false;
                                         // console.log(guild.owner_id, member.id);
                                         if (guild.owner_id == member.id) {
+                                            is_a_owner = true;
                                             is_owner = true;
                                         }
                                         servers.push({
@@ -111,13 +113,14 @@ module.exports.add_server_users = (all_members) => {
                         servers = JSON.stringify(servers);
                         console.log('ADDING USER ' + member.id);
                         // console.log(member.displayName, servers);
-                        db.run(`INSERT INTO users (id, username, servers, verified, email_verified) 
+                        db.run(`INSERT INTO users (id, username, servers, verified, email_verified, is_owner) 
                         VALUES (
                         '${member.id}',
                         '${member.displayName}',
                         '${servers}',
                         false,
-                        false
+                        false,
+                        ${is_a_owner}
                         )`, (err) => { rhandler(err)}
                         );
                     })
