@@ -66,11 +66,19 @@ passport.use(new DiscordStrategy({
   callbackURL: 'http://localhost:3000/auth/discord/callback',
   scope: ['email']
 },
-function(accessToken, refreshToken, profile, cb) {
-  console.log('SAVING');
-  console.log(profile);
-  let err;
-  return cb(err,profile)
+function(accessToken, refreshToken, discord_profile, cb) {
+
+  database.user_login(discord_profile, (err, profile) => {
+    if (err) {
+      console.log('[SQL LOGIN ERROR] '+err);
+    }
+    console.log('SAVING');
+    if (profile || err) {
+      console.log(profile);
+      return cb(err, profile);
+    }
+  })
+  
 }));
 
 

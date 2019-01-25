@@ -2,8 +2,12 @@ const sqlite3 = require('sqlite3');
 
 let db = new sqlite3.Database('../moderari.db',(err) => {rhandler(err)});
 
-module.exports.user_login = (profile, callback) => {
-    
+module.exports.user_login = (discord_profile, callback) => {
+    console.log(discord_profile.id);
+    db.get(`SELECT * FROM users WHERE id = ${discord_profile.id}`, (err, row) => {
+        callback(err,row);
+    })
+    return callback()
 }
 
 
