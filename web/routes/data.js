@@ -61,6 +61,9 @@ router.get('/users', function(req, res, next) {
     }, 2000);
 });
 
+/**
+ * NEWS
+ */
 router.get('/news', function(req, res, next) {
     db.all('SELECT * FROM news', (err, rows) => {
         rhandler(err);
@@ -75,6 +78,16 @@ router.get('/news', function(req, res, next) {
     }
     }, 2000);
 });
+router.post('/news', function(req,res,next) {
+    console.log(req.body);
+
+    setTimeout(() => { 
+        if (!res.headersSent) {
+            res.href('/');
+            res.status(404);
+        }
+    }, 2000);
+})
 
 
 

@@ -1,10 +1,14 @@
 <main>
     {{#if user.is_admin}}
     <div class="news_block">
-        <form action="post" action="/data/news">
+        <form method="post" action="/data/news">
+            <label for="categories">Categories (web database bot important random)</label>
             <input type="text" name="categories" placeholder="Categories">
 
+            <label for="title">Title</label>
             <input type="text" name="title" placeholder="Title">
+
+            <label for="description">Description</label>
             <textarea name="description" placeholder="Description" id="" cols="30" rows="10"></textarea>
             <input type="submit" value="Submit">
         </form>
