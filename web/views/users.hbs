@@ -3,6 +3,7 @@
     <li class="account_nav" id="account_servers">Servers</li>
     {{#if user.is_owner}}
     <li class="account_nav" id="account_manage">Manage Servers</li>
+    {{/if}}
     <li class="account_nav" id="account_contact">Contact</li>
 </ul>
 <main>
@@ -20,10 +21,15 @@
     </div>
     <div class="page" id="page_servers">
         <h1>Registered User on:</h1>
+        <div id="user_servers">
+            {{user.servers}}
+        </div>
     </div>
+    {{#if user.is_owner}}
     <div class="page" id="page_manage">
         <h1>Manage your servers:</h1>
     </div>
+    {{/if}}
     <div class="page" id="page_contact">
         <h1>Contact Moderari!</h1>
         <p>If you need any help you should join the support Discord</p>

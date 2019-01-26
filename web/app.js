@@ -5,11 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
 
-const uuidv4 = require('uuid/v4');
+// const uuidv4 = require('uuid/v4');
 // const session = require('express-session')
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
+const hbs = require('hbs');
 
 const database = require('./database');
 
@@ -25,6 +26,32 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+/**
+ * HANDLEBARS
+ */
+hbs.registerHelper('compare', function(lvalue, rvalue, options) {
+  if (arguments.length < 3)
+      throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+  var operator = options.hash.operator || "==";
+  var operators = {
+      '==':       function(l,r) { return l == r; },
+      '===':      function(l,r) { return l === r; },
+      '!=':       function(l,r) { return l != r; },
+      '<':        function(l,r) { return l < r; },
+      '>':        function(l,r) { return l > r; },
+      '<=':       function(l,r) { return l <= r; },
+      '>=':       function(l,r) { return l >= r; },
+      'typeof':   function(l,r) { return typeof l == r; }
+  }
+  if (!operators[operator])
+      throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
+  var result = operators[operator](lvalue,rvalue);
+  if( result ) {
+      return options.fn(this);
+  } else {
+      return options.inverse(this);
+  }
+});
 
 app.use(logger('dev'));
 app.use(express.json());
