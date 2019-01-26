@@ -113,14 +113,15 @@ module.exports.add_server_users = (all_members) => {
                         servers = JSON.stringify(servers);
                         console.log('ADDING USER ' + member.id);
                         // console.log(member.displayName, servers);
-                        db.run(`INSERT INTO users (id, username, servers, verified, email_verified, is_owner) 
+                        db.run(`INSERT INTO users (id, username, servers, verified, email_verified, is_owner, avatar) 
                         VALUES (
                         '${member.id}',
                         '${member.displayName}',
                         '${servers}',
                         false,
                         false,
-                        ${is_a_owner}
+                        ${is_a_owner},
+                        '${member.user.avatarURL}'
                         )`, (err) => { rhandler(err)}
                         );
                     })

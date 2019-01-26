@@ -118,11 +118,27 @@ body {
           margin: 1%; }
     body main .news_block {
       background-color: #222;
-      padding: 20px;
+      margin-bottom: 3%;
+      padding: 1%;
       width: 80%;
-      left: 10%;
+      left: 9%;
       position: relative;
       box-shadow: 0px 0px 10px black; }
+      body main .news_block form {
+        margin-left: 2.5%; }
+      body main .news_block input, body main .news_block select, body main .news_block textarea {
+        font-size: 1.1em;
+        display: block;
+        width: 95%;
+        margin: 10px; }
+      body main .news_block input[type=submit] {
+        background-color: #8A0808;
+        color: white;
+        border: none;
+        padding: 1%; }
+        body main .news_block input[type=submit]:hover {
+          opacity: 0.8;
+          cursor: pointer; }
       body main .news_block .date {
         float: right;
         position: relative;
@@ -152,10 +168,8 @@ body {
       body main .page h1, body main .page h2 {
         display: inline; }
       body main .page img {
-        position: relative;
+        margin-bottom: 5%;
         float: right;
-        top: 0;
-        right: 0;
         width: 10%; }
       body main .page .user_server_block {
         margin: 2%;

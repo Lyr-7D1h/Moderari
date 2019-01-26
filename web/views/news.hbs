@@ -1,3 +1,13 @@
 <main>
-    
+    {{#if user.is_admin}}
+    <div class="news_block">
+        <form action="post" action="/data/news">
+            <input type="text" name="categories" placeholder="Categories">
+
+            <input type="text" name="title" placeholder="Title">
+            <textarea name="description" placeholder="Description" id="" cols="30" rows="10"></textarea>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    {{/if}}
 </main>

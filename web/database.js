@@ -13,7 +13,6 @@ module.exports.user_login = (discord_profile, callback) => {
                     verified = ${true},
                     verified_at = '${discord_profile.fetchedAt}',
                     email_verified = ${discord_profile.verified},
-                    avatar = '${discord_profile.avatar}',
                     email = '${discord_profile.email}',
                     discriminator = '${discord_profile.discriminator}',
                     language = '${discord_profile.locale}',
