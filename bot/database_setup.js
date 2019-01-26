@@ -54,8 +54,9 @@ db.serialize(function() {
         categories VARCHAR
     )`, (err) => rhandler(err));
     db.run(`CREATE TABLE IF NOT EXISTS users (
-        id INT NOT NULL, 
+        id INT UNIQUE NOT NULL, 
         username VARCHAR NOT NULL,
+        secure_token VARCHAR UNIQUE NOT NULL,
         servers VARCHAR NOT NULL,
         verified_at,
         verified INT NOT NULL,

@@ -2,6 +2,8 @@ const config = require('./config.json');
 const fs = require('fs');
 const sqlite3 = require('sqlite3');
 const Discord = require('discord.js');
+const generatePassword = require('password-generator');
+const bcrypt = require('bcrypt');
 
 let rhandler = (err) => {
     if (err) {
@@ -112,10 +114,13 @@ module.exports.add_server_users = (all_members) => {
                         }
                         servers = JSON.stringify(servers);
                         console.log('ADDING USER ' + member.id);
-                        // console.log(member.displayName, servers);
-                        db.run(`INSERT INTO users (id, username, servers, verified, email_verified, is_owner, avatar) 
+        
+                        let secure_token = bcrypt.hashSync(generatePassword(29, false), 12);
+                        // console.log(secure_token);
+                        db.run(`INSERT INTO users (id, secure_token, username, servers, verified, email_verified, is_owner, avatar) 
                         VALUES (
                         '${member.id}',
+                        '${secure_token}',
                         '${member.displayName}',
                         '${servers}',
                         false,
