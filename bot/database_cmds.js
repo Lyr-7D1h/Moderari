@@ -83,7 +83,7 @@ module.exports.add_server_users = (all_members) => {
         // console.log(all_members_unique[i].displayName);
         let member = all_members_unique[i];
         db.serialize(() => {
-            db.all(`SELECT * FROM users WHERE id=${member.id}`, (err, rows) => {
+            db.all(`SELECT * FROM users WHERE id='${member.id}'`, (err, rows) => {
                 rhandler(err);
                 if (!(rows.length > 0)) {
                     db.all(`SELECT * FROM servers`, (err,rows) => {
@@ -115,7 +115,7 @@ module.exports.add_server_users = (all_members) => {
                         servers = JSON.stringify(servers);
                         console.log('ADDING USER ' + member.id);
         
-                        let secure_token = bcrypt.hashSync(generatePassword(29, false), 12);
+                        let secure_token = generatePassword(50, false);
                         // console.log(secure_token);
                         db.run(`INSERT INTO users (id, secure_token, username, servers, verified, email_verified, is_owner, avatar) 
                         VALUES (

@@ -78,7 +78,7 @@ let load_news = () => {
                     category_html += `<div class="tag ${categories[k].toLowerCase()}">${categories[k].toUpperCase()}</div>`;
                 }
                 $('main').append(`
-                <div id="news_${news.id}" class="news_block">
+                <div id="${news.id}" class="news_block">
                 ${category_html}
                 <div class="date">${date}</div>
                 <br>

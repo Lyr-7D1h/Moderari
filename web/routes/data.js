@@ -1,6 +1,8 @@
 const express = require('express');
 const sqlite3 = require('sqlite3');
 const os = require('os');
+const request = require('request');
+const discord = require('discord.js');
 var router = express.Router();
 
 const db = new sqlite3.Database('../moderari.db', (err) => {rhandler(err)});
@@ -79,11 +81,44 @@ router.get('/news', function(req, res, next) {
     }, 2000);
 });
 router.post('/news', function(req,res,next) {
-    console.log(req.body);
+    db.serialize(() => {
+        db.all(`SELECT secure_token FROM users WHERE id='${req.user.id}'`, (err, row) => {
+            rhandler(err);
+            if(row) {
+                if (row.length > 0) {
+                    if (req.body.secure_token === row.secure_token ) {
+                        let date = new Date()
+                        categories = req.body.categories.split(' ');
+                        db.run(`INSERT INTO news (id, author, created_at, title, description, categories) VALUES (
+                            ${date.getTime()},
+                            '${req.user.username}',
+                            '${date.toDateString()}',
+                            '${req.body.title}',
+                            '${req.body.description}',
+                            '${JSON.stringify(categories)}'
+                        )`, (err) => {rhandler(err)});
+                        
+                        let embed = new discord.RichEmbed()
+                            .setTitle(req.body.title)
+                            .setDescription(req.body.description)
+                            .setAuthor(req.user.username, req.user.avatar)
+                            .setColor('#333')
+                            .setFooter(categories)
+                            .setURL(`http://localhost:3000/news#${date.getTime()}`);
+                        // embed = JSON.stringify(embed);
+                        console.log(embed);
+                        let webhook = new discord.WebhookClient('537704949140684802', 'ndOUEwn2ZMXrsPFN-Bbcn27eqhWFdthwYRcJBdeIk-n9RSakqarsr-leePdD4XXsHU1t');
+                        webhook.send('@here', embed);
+                        res.send('success');
+                    }
+                }
+            }
+        })
+    });
 
     setTimeout(() => { 
         if (!res.headersSent) {
-            res.href('/');
+            res.redirect('/news');
             res.status(404);
         }
     }, 2000);
