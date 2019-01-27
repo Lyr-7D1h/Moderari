@@ -89,14 +89,14 @@ router.post('/news', function(req,res,next) {
                     if (req.body.secure_token === row.secure_token ) {
                         let date = new Date()
                         categories = req.body.categories.split(' ');
-                        db.run(`INSERT INTO news (id, author, created_at, title, description, categories) VALUES (
-                            ${date.getTime()},
-                            '${req.user.username}',
-                            '${date.toDateString()}',
-                            '${req.body.title}',
-                            '${req.body.description}',
-                            '${JSON.stringify(categories)}'
-                        )`, (err) => {rhandler(err)});
+                        db.run(`INSERT INTO news (id, author, created_at, title, description, categories) VALUES (?,?,?,?,?,?)`, [
+                            date.getTime(), 
+                            req.user.username, 
+                            date.toDateString(), 
+                            req.body.title, 
+                            req.body.description, 
+                            JSON.stringify(categories)], 
+                        (err) => {rhandler(err)});
                         
                         let embed = new discord.RichEmbed()
                             .setTitle(req.body.title)
