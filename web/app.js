@@ -90,7 +90,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new DiscordStrategy({
   clientID: '536672463929737229',
   clientSecret: 'bm4LYpVJIctzmqLXhbsOW0MMEbn5z2gM',
-  callbackURL: req.app.get('env') === 'development' ? 'http://localhost:3000/auth/discord/callback' : 'http://moderari.ivelthoven.nl/auth/discord/callback',
+  callbackURL: app.get('env') === 'development' ? 'http://localhost:3000/auth/discord/callback' : 'http://moderari.ivelthoven.nl/auth/discord/callback',
   scope: ['email']
 },
 function(accessToken, refreshToken, discord_profile, cb) {
