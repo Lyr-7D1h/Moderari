@@ -3,7 +3,6 @@ const fs = require('fs');
 const sqlite3 = require('sqlite3');
 const Discord = require('discord.js');
 const generatePassword = require('password-generator');
-const bcrypt = require('bcrypt');
 
 let rhandler = (err) => {
     if (err) {
