@@ -104,7 +104,7 @@ router.post('/news', function(req,res,next) {
                             .setAuthor(req.user.username, req.user.avatar)
                             .setColor('#333')
                             .setFooter(categories)
-                            .setURL(`http://localhost:3000/news#${date.getTime()}`);
+                            .setURL(`http://moderari.ivelthoven.nl/news#${date.getTime()}`);
                         // embed = JSON.stringify(embed);
                         console.log(embed);
                         let webhook = new discord.WebhookClient('537704949140684802', 'ndOUEwn2ZMXrsPFN-Bbcn27eqhWFdthwYRcJBdeIk-n9RSakqarsr-leePdD4XXsHU1t');
