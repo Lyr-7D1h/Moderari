@@ -90,7 +90,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new DiscordStrategy({
   clientID: '536672463929737229',
   clientSecret: 'bm4LYpVJIctzmqLXhbsOW0MMEbn5z2gM',
-  callbackURL: 'http://localhost:3000/auth/discord/callback',
+  callbackURL: req.app.get('env') === 'development' ? 'http://localhost:3000/auth/discord/callback': 'http://moderari.ivelthoven.nl/auth/discord/callback',
   scope: ['email']
 },
 function(accessToken, refreshToken, discord_profile, cb) {
@@ -122,13 +122,13 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/data', dataRouter);
 
-// catch 404 and forward to error handler
+// catch 404 and forward to error handlreq.app.get('env') === 'development' ?
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res, next) {req.app.get('env') === 'development' ?
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
