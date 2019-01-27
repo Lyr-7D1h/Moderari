@@ -56,7 +56,7 @@ let load_servers = () => {
 }
 let load_server_buttons = () => {
     $('.server_title').click(function(e) { 
-        // console.log($(e.target).parent().children().eq(1));a
+        // console.log($(e.target).parent().children().eq(1));
         $(e.target).parent().children().eq(1).toggle();
     })
 }
