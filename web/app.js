@@ -78,9 +78,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieSession({
   name: 'session',
   maxAge: 24 * 60 * 60 * 1000,
-  keys: ['!+En}Dk*[(5>6qZ\`syR^F\`-N', '!+En}Dk*[(5>6qZ\`syR^F\`-N'],
-  secure: true
-
+  keys: ['!+En}Dk*[(5>6qZ\`syR^F\`-N', '!+En}Dk*[(5>6qZ\`syR^F\`-N']
 }))
 
 app.use(flash());
