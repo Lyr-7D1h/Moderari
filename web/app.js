@@ -54,6 +54,8 @@ hbs.registerHelper('compare', function(lvalue, rvalue, options) {
   }
 });
 
+app.use(require('helmet')()); //helps secure expressjs servers
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
