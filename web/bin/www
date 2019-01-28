@@ -20,8 +20,11 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
+if (app.get('env') === 'production') {
+  var http_server = http.createServer(app);
+  http_server.listen(80);
+}
 
-var http_server = http.createServer(app);
 
 /**
  * Create HTTPS server.
@@ -39,7 +42,6 @@ var server = https.createServer(options, app);
  */
 console.log('Listening ', port)
 server.listen(port);
-http_server.listen(80);
 server.on('error', onError);
 server.on('listening', onListening);
 
