@@ -9,6 +9,8 @@ var sassMiddleware = require('node-sass-middleware');
 
 // const uuidv4 = require('uuid/v4');
 // const session = require('express-session')
+
+const flash = require('express-flash');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
@@ -81,6 +83,7 @@ app.use(cookieSession({
 
 }))
 
+app.use(flash());
 
 /**
  * PASSPORT

@@ -118,6 +118,7 @@ router.post('/news', function(req,res,next) {
 
     setTimeout(() => { 
         if (!res.headersSent) {
+            req.flash('alert', 'News not send')
             res.redirect('/news');
             res.status(404);
         }

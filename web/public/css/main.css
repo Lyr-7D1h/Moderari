@@ -46,6 +46,24 @@ body {
     padding: 20px;
     padding-top: 50px;
     background-color: #222; }
+    body nav .messages {
+      width: 59%;
+      margin-bottom: 1.5%;
+      left: 20%;
+      background-color: #333434;
+      font-size: 1.3em;
+      position: relative;
+      padding: 0.5%; }
+      body nav .messages i {
+        position: absolute;
+        left: 20px;
+        float: left; }
+    body nav .info {
+      background-color: #323264; }
+    body nav .alert {
+      background-color: #643232; }
+    body nav .success {
+      background-color: #326432; }
     body nav .active {
       background-color: #8A0808; }
     body nav #login_display {

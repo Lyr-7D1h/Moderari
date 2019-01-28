@@ -17,6 +17,15 @@
       Logged in as <span style="color:rgb(100,100,150)">{{user.username}}</span>
     </span>
     {{/if}}
+    {{#if messages.info}}
+    <div class="messages info"><i class="fas fa-info"></i>{{messages.info}}</div>
+    {{/if}}
+    {{#if messages.alert}}
+    <div class="messages alert"><i class="fas fa-exclamation-triangle"></i>{{messages.alert}}</div>
+    {{/if}}
+    {{#if messages.success}}
+    <div class="messages success"><i class="fas fa-check"></i>{{messages.success}}</div>
+    {{/if}}
     <h1>Moderari</h1>
     <p><i>Created by Exsite</i></p>
     <ul>
