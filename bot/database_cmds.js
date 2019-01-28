@@ -34,24 +34,24 @@ module.exports.add_server = (guild) => {
     channels = JSON.stringify(channels);
     // console.log(guild.id, server_name)
     db.serialize(() => {
-        db.all(`SELECT * FROM servers WHERE id = ${guild.id}`, (err, rows) => { rhandler(err);
+        db.all(`SELECT * FROM servers WHERE id = ?`,guild.id, (err, rows) => { rhandler(err);
             // db.prepare("INSERT INTO servers VALUES (?,?,?,?,?,?,?,?,?,?,?)");
             if (!(rows.length > 0)) {
                 console.log('ADDING SERVER '+server_name);
                 db.run(`INSERT INTO servers (id, server_name, available, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
-                VALUES (
-                    ${guild.id}, 
-                    '${server_name}',
-                    ${guild.available},
-                    '${guild.iconURL}',
-                    '${guild.createdAt}',
-                    '${guild.region}', 
-                    ${guild.verificationLevel}, 
-                    '${channels}', 
-                    ${guild.ownerID}, 
-                    '${owner_name}',
-                    '${users}'
-                )`, (err) => { rhandler(err)}
+                VALUES (?,?,?,?,?,?,?,?,?,?,?)`,[
+                    guild.id,
+                    server_name,
+                    guild.available,
+                    guild.iconURL,
+                    guild.createdAt,
+                    guild.region,
+                    guild.verificationLevel,
+                    channels,
+                    guild.ownerID,
+                    owner_name,
+                    users
+                ], (err) => { rhandler(err)}
                 ); 
             }
         })
@@ -82,7 +82,7 @@ module.exports.add_server_users = (all_members) => {
         // console.log(all_members_unique[i].displayName);
         let member = all_members_unique[i];
         db.serialize(() => {
-            db.all(`SELECT * FROM users WHERE id='${member.id}'`, (err, rows) => {
+            db.all(`SELECT * FROM users WHERE id=?`, member.id,(err, rows) => {
                 rhandler(err);
                 if (!(rows.length > 0)) {
                     db.all(`SELECT * FROM servers`, (err,rows) => {
@@ -117,16 +117,16 @@ module.exports.add_server_users = (all_members) => {
                         let secure_token = generatePassword(50, false);
                         // console.log(secure_token);
                         db.run(`INSERT INTO users (id, secure_token, username, servers, verified, email_verified, is_owner, avatar) 
-                        VALUES (
-                        '${member.id}',
-                        '${secure_token}',
-                        '${member.displayName}',
-                        '${servers}',
-                        false,
-                        false,
-                        ${is_a_owner},
-                        '${member.user.avatarURL}'
-                        )`, (err) => { rhandler(err)}
+                        VALUES (?,?,?,?,?,?,?,?)`,[
+                            member.id,
+                            secure_token,
+                            member.displayName,
+                            servers,
+                            false,
+                            false,
+                            is_a_owner,
+                            member.user.avatarURL
+                        ] ,(err) => { rhandler(err)}
                         );
                     })
                 } 
@@ -137,43 +137,3 @@ module.exports.add_server_users = (all_members) => {
         });
     }
 }
-
-
-// db.serialize(() => {
-//     db.all(`SELECT * FROM servers WHERE id=${member.id}`, (err, rows) => {
-//         rhandler(err);
-//         if (!(rows.length > 0)) { //Make sure you don't add doubles
-//             db.all(`SELECT * FROM servers`, (err,rows) => {
-//                 rhandler(err);
-//                 server = JSON.stringify(servers);
-//                 console.log(member.displayName, server);
-//                 db.run(`INSERT INTO users (id, username, servers, verified, email_verified) 
-//                 VALUES (
-//                 '${member.id}',
-//                 '${member.displayName}',
-//                 '${server}',
-//                 false,
-//                 false
-//                 )`, (err) => { rhandler(err)}
-//                 );
-//             })
-//         } 
-//     })   
-// });
-
-
-// db.run(`INSERT INTO servers (id, server_name, available, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
-// VALUES (
-//     ${guild.id}, 
-//     '${server_name}',
-//     ${guild.available},
-//     '${guild.iconURL}',
-//     '${guild.createdAt}',
-//     '${guild.region}', 
-//     ${guild.verificationLevel}, 
-//     '${channels}', 
-//     ${guild.ownerID}, 
-//     '${owner_name}',
-//     '${users}'
-// )`, (err) => { rhandler(err)}
-// ); 
