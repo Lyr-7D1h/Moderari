@@ -28,8 +28,8 @@ router.get('/*', function(req, res, next) {
   }
   setTimeout(() => {
     if (!res.headersSent) {
-      // req.flash('alert', `You must login first`)
-      res.redirect('/auth/discord');
+      req.flash('alert', `You must login first`);
+      res.redirect('/');
     }
     }, 2000);
 });
