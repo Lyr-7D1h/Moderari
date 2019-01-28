@@ -24,7 +24,7 @@ router.get('/auth/discord', passport.authenticate('discord'));
 router.get('/auth/discord/callback', 
   passport.authenticate('discord', {failureRedirect: '/'}), 
   function(req, res) {
-    // res.locals.session = req.session
+    res.locals.session = req.session
     req.flash('success', `Welcome ${req.session.passport.user.username}`);
     res.redirect(`/users/${req.session.passport.user.id}`) // Successful auth
   }
