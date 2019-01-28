@@ -82,7 +82,7 @@ router.get('/news', function(req, res, next) {
 });
 router.post('/news', function(req,res,next) {
     db.serialize(() => {
-        db.all(`SELECT secure_token FROM users WHERE id='${req.user.id}'`, (err, row) => {
+        db.all(`SELECT secure_token FROM users WHERE id=?`,req.user.id, (err, row) => {
             rhandler(err);
             if(row) {
                 if (row.length > 0) {
