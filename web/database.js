@@ -38,6 +38,7 @@ module.exports.user_login = (discord_profile, callback) => {
                     callback(err,row);
                 }
             }
+            return
         })
         return callback()
     });
