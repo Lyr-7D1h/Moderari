@@ -156,6 +156,7 @@ body {
         margin: 10px; }
       body main .news_block input[type=submit] {
         background-color: #8A0808;
+        width: 50%;
         color: white;
         border: none;
         padding: 1%; }

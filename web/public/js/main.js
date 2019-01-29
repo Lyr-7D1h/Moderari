@@ -87,7 +87,11 @@ let load_news = () => {
                     ${description}
                 </p>
                 </div>
-                `);            
+                `);    
+                
+                if ($('#delete_news')) {
+                    $('#delete_news').append(`<option value="${news.id}">${news.title} [${news.id}]</option>`)
+                }
             }
         }
     });

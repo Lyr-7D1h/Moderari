@@ -82,34 +82,38 @@ router.get('/news', function(req, res, next) {
 });
 router.post('/news', function(req,res,next) {
     db.serialize(() => {
-        db.all(`SELECT secure_token FROM users WHERE id=?`,req.user.id, (err, row) => {
+        db.all(`SELECT secure_token, is_admin FROM users WHERE id=?`,req.user.id, (err, row) => {
             rhandler(err);
             if(row) {
                 if (row.length > 0) {
-                    if (req.body.secure_token === row.secure_token ) {
-                        let date = new Date()
-                        categories = req.body.categories.split(' ');
-                        db.run(`INSERT INTO news (id, author, created_at, title, description, categories) VALUES (?,?,?,?,?,?)`, [
-                            date.getTime(), 
-                            req.user.username, 
-                            date.toDateString(), 
-                            req.body.title, 
-                            req.body.description, 
-                            JSON.stringify(categories)], 
-                        (err) => {rhandler(err)});
-                        
-                        let embed = new discord.RichEmbed()
-                            .setTitle(req.body.title)
-                            .setDescription(req.body.description)
-                            .setAuthor(req.user.username, req.user.avatar)
-                            .setColor('#333')
-                            .setFooter(categories)
-                            .setURL(`http://moderari.ivelthoven.nl/news#${date.getTime()}`);
-                        // embed = JSON.stringify(embed);
-                        console.log(embed);
-                        let webhook = new discord.WebhookClient('539830157368885259', 'r3C3bwsgLOw_4oTnq5KLkHhtY1h93AOymnz6x-0nYL0Igrhx3PUcL0IByqVN4H8kJdX4');
-                        webhook.send('@here', embed);
-                        res.send('success');
+                    if (req.user.secure_token === row[0].secure_token ) {
+                        if (row[0].is_admin) {
+                            let date = new Date()
+                            categories = req.body.categories.split(' ');
+                            db.run(`INSERT INTO news (id, author, created_at, title, description, categories) VALUES (?,?,?,?,?,?)`, [
+                                date.getTime(), 
+                                req.user.username, 
+                                date.toDateString(), 
+                                req.body.title, 
+                                req.body.description, 
+                                JSON.stringify(categories)], 
+                            (err) => {rhandler(err)});
+                            
+                            let embed = new discord.RichEmbed()
+                                .setTitle(req.body.title)
+                                .setDescription(req.body.description)
+                                .setAuthor(req.user.username, req.user.avatar)
+                                .setColor('#333')
+                                .setFooter(categories)
+                                .setURL(`http://moderari.ivelthoven.nl/news#${date.getTime()}`);
+                            embed = JSON.stringify(embed);
+                            console.log(embed);
+                            let webhook = new discord.WebhookClient('539830157368885259', 'r3C3bwsgLOw_4oTnq5KLkHhtY1h93AOymnz6x-0nYL0Igrhx3PUcL0IByqVN4H8kJdX4');
+                            webhook.send('@here', embed);
+
+                            req.flash('success', 'News form send')
+                            res.redirect('/news');
+                        }
                     }
                 }
             }
@@ -119,6 +123,35 @@ router.post('/news', function(req,res,next) {
     setTimeout(() => { 
         if (!res.headersSent) {
             req.flash('alert', 'News not send')
+            res.redirect('/news');
+            res.status(404);
+        }
+    }, 2000);
+})
+router.post('/news/delete', function(req,res,next) {
+    db.serialize(() => {
+        db.all(`SELECT secure_token, is_admin FROM users WHERE id=?`,req.user.id, (err, row) => {
+            rhandler(err);
+            if(row) {
+                if (row.length > 0) {
+                    console.log(row);
+                    if (req.user.secure_token === row[0].secure_token ) { // Check if user is who he is saying he is
+                        console.log(row[0].is_admin);
+                        if (row[0].is_admin) { //Checking if user is admin
+                            db.run(`DELETE FROM news WHERE id=?`,req.body.delete_news, (err) => {rhandler(err)});
+    
+                            req.flash('success', 'News article deleted')
+                            res.redirect('/news');
+                        } 
+                    }
+                }
+            }
+        })
+    });
+
+    setTimeout(() => { 
+        if (!res.headersSent) {
+            req.flash('alert', 'News article didn\'t delete');
             res.redirect('/news');
             res.status(404);
         }
