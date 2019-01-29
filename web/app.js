@@ -106,7 +106,8 @@ function(accessToken, refreshToken, discord_profile, cb) {
   database.user_login(discord_profile, (err, profile) => {
     if (err) {
       console.log('[LOGIN ERROR] '+err);
-    } else {
+    }
+    if (profile || err) {
       return cb(err, profile);
     }
   })
