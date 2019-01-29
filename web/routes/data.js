@@ -107,7 +107,7 @@ router.post('/news', function(req,res,next) {
                             .setURL(`http://moderari.ivelthoven.nl/news#${date.getTime()}`);
                         // embed = JSON.stringify(embed);
                         console.log(embed);
-                        let webhook = new discord.WebhookClient('537704949140684802', 'ndOUEwn2ZMXrsPFN-Bbcn27eqhWFdthwYRcJBdeIk-n9RSakqarsr-leePdD4XXsHU1t');
+                        let webhook = new discord.WebhookClient('539830157368885259', 'r3C3bwsgLOw_4oTnq5KLkHhtY1h93AOymnz6x-0nYL0Igrhx3PUcL0IByqVN4H8kJdX4t');
                         webhook.send('@here', embed);
                         res.send('success');
                     }
