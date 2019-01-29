@@ -9,8 +9,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Moderari || Home', user: req.user });
 });
 
-router.get('/servers', function(req, res, next) {
-  res.render('servers', { title: 'Moderari || Servers', user: req.user });
+router.get('/documentation', function(req, res, next) {
+  res.render('documentation', { title: 'Moderari || Documentation', user: req.user });
 });
 
 router.get('/news', function(req, res, next) {
