@@ -22,7 +22,7 @@ router.get('/news', function(req, res, next) {
  */
 router.get('/auth/discord', passport.authenticate('discord'));
 router.get('/auth/discord/callback', 
-  passport.authenticate('discord', {failureRedirect: '/'}), 
+  passport.authenticate('discord', {failureRedirect: '/', failureFlash: 'You must be a member on the Discord server' }), 
   function(req, res) {
     res.locals.session = req.session
     req.flash('success', `Welcome ${req.session.passport.user.username}`);

@@ -3,10 +3,9 @@ const sqlite3 = require('sqlite3');
 let db = new sqlite3.Database('../moderari.db',(err) => {rhandler(err)});
 
 module.exports.user_login = (discord_profile, callback) => {
-    console.log(discord_profile);
+    // console.log(discord_profile);
     db.serialize(() => {
         db.get(`SELECT * FROM users WHERE id = ?`, discord_profile.id,(err, row) => {
-            // console.log(row);
             if (row) {
                 if (row.verified === 0) { // First login isn't verified yet
                     console.log('NEW LOGIN')
@@ -37,8 +36,10 @@ module.exports.user_login = (discord_profile, callback) => {
                 } else {
                     callback(err,row);
                 }
+            } else {
+                let err = 'Not a user';
+                callback(err, null);
             }
-            return
         })
         return callback()
     });

@@ -23,6 +23,9 @@
     {{#if messages.alert}}
     <div class="messages alert"><i class="fas fa-exclamation-triangle"></i>{{messages.alert}}</div>
     {{/if}}
+    {{#if messages.error}}
+    <div class="messages alert"><i class="fas fa-exclamation-triangle"></i>{{messages.error}}</div>
+    {{/if}}
     {{#if messages.success}}
     <div class="messages success"><i class="fas fa-check"></i>{{messages.success}}</div>
     {{/if}}

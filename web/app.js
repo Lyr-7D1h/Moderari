@@ -105,10 +105,8 @@ function(accessToken, refreshToken, discord_profile, cb) {
 
   database.user_login(discord_profile, (err, profile) => {
     if (err) {
-      console.log('[SQL LOGIN ERROR] '+err);
-    }
-    if (profile || err) {
-      // console.log(profile);
+      console.log('[LOGIN ERROR] '+err);
+    } else {
       return cb(err, profile);
     }
   })
