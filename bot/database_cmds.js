@@ -16,9 +16,6 @@ let db = new sqlite3.Database('../moderari.db',(err) => {
 });
 
 module.exports.add_server = (guild) => {
-    
-    let server_name = guild.name.replace(/['"]/g, ""); // No quotes in server name allowed preventing sql injection
-    let owner_name = guild.owner.displayName.replace(/['"]/g, /["]/g); // No quotes in owner name allowed preventing sql injection
 
     let channels = []
     guild.channels.map((v) => {
@@ -32,27 +29,27 @@ module.exports.add_server = (guild) => {
     })
     users = JSON.stringify(users);
     channels = JSON.stringify(channels);
-    // console.log(guild.id, server_name)
+
     db.serialize(() => {
-        db.all(`SELECT * FROM servers WHERE id = ?`,guild.id, (err, rows) => { rhandler(err);
-            // db.prepare("INSERT INTO servers VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-            if (!(rows.length > 0)) {
-                console.log('ADDING SERVER '+server_name);
-                db.run(`INSERT INTO servers (id, server_name, available, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
-                VALUES (?,?,?,?,?,?,?,?,?,?,?)`,[
-                    guild.id,
-                    server_name,
-                    guild.available,
-                    guild.iconURL,
-                    guild.createdAt,
-                    guild.region,
-                    guild.verificationLevel,
-                    channels,
-                    guild.ownerID,
-                    owner_name,
-                    users
-                ], (err) => { rhandler(err)}
-                ); 
+        db.all(`SELECT * FROM server WHERE id = ?`,guild.id, (err, rows) => { rhandler(err);
+            if (rows) {
+                if (!(rows.length > 0)) {
+                    console.log('ADDING SERVER '+guild.name);
+                    db.run(`INSERT INTO server (id, server_name, available, icon_url, created_at, region, verification_level, channels, owner_id, owner_name, users) 
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?)`,[
+                        guild.id,
+                        guild.name,
+                        guild.available,
+                        guild.iconURL,
+                        guild.createdAt,
+                        guild.region,
+                        guild.verificationLevel,
+                        channels,
+                        guild.ownerID,
+                        guild.owner.displayName,
+                        users
+                    ], (err) => { rhandler(err)});  
+                }
             }
         })
     });
@@ -73,7 +70,7 @@ module.exports.add_server_users = (all_members) => {
                 // console.log('double '+ member.displayName);
             }
         }
-        if (allowed && !(member.user.bot)) {
+        if (allowed && !(member.user.bot)) { // Prevent bot accounts
             // console.log(member.displayName)
             all_members_unique.push(member);
         }
@@ -84,55 +81,44 @@ module.exports.add_server_users = (all_members) => {
         db.serialize(() => {
             db.all(`SELECT * FROM users WHERE id=?`, member.id,(err, rows) => {
                 rhandler(err);
-                if (!(rows.length > 0)) {
-                    db.all(`SELECT * FROM servers`, (err,rows) => {
-                        rhandler(err);
-                        let servers = [];
-                        let is_a_owner = false;
-                        if (rows.length > 0) {
-                            for (i in rows) {
-                                let guild = rows[i];
-                                let user_list = JSON.parse(rows[i].users);
+                if (rows) {
+                    if (!(rows.length > 0)) {
+                        db.get(`SELECT * FROM server`, (err,row) => {
+                            rhandler(err);
+                            let server = {}; // SETUP for user server info needed
+                            let is_admin = false;
+                            if (row) {
+                                let guild = row;
+                                let user_list = JSON.parse(row.users);
                                 for (i in user_list) {
-                                    // console.log(guild);
                                     if (user_list[i] == member.id) {
-                                        let is_owner = false;
-                                        // console.log(guild.owner_id, member.id);
                                         if (guild.owner_id == member.id) {
-                                            is_a_owner = true;
+                                            is_admin = true;
                                             is_owner = true;
                                         }
-                                        servers.push({
-                                            server_name: guild.server_name,
-                                            server_id: guild.id,
-                                            is_owner:  is_owner
-                                        });
                                     }
                                 }
+                        
                             }
-                        }
-                        servers = JSON.stringify(servers);
-                        console.log('ADDING USER ' + member.id);
-        
-                        let secure_token = generatePassword(50, false);
-                        // console.log(secure_token);
-                        db.run(`INSERT INTO users (id, secure_token, username, servers, verified, email_verified, is_owner, avatar) 
-                        VALUES (?,?,?,?,?,?,?,?)`,[
-                            member.id,
-                            secure_token,
-                            member.displayName,
-                            servers,
-                            false,
-                            false,
-                            is_a_owner,
-                            member.user.avatarURL
-                        ] ,(err) => { rhandler(err)}
-                        );
-                    })
+                            
+                            console.log('ADDING USER ' + member.id);
+                            server = JSON.stringify(server);
+                            let secure_token = generatePassword(50, false);
+                            db.run(`INSERT INTO users (id, secure_token, server, username, verified, email_verified, is_admin, avatar) 
+                            VALUES (?,?,?,?,?,?,?,?)`,[
+                                member.id,
+                                secure_token,
+                                server,
+                                member.displayName,
+                                false,
+                                false,
+                                is_admin,
+                                member.user.avatarURL
+                            ] ,(err) => { rhandler(err)}
+                            );
+                        })
+                    }
                 } 
-                // else {
-                //     console.log('Multiple servers '+ member.id);
-                // }
             })   
         });
     }

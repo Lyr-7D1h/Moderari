@@ -99,7 +99,7 @@ passport.use(new DiscordStrategy({
   clientID: '536672463929737229',
   clientSecret: 'bm4LYpVJIctzmqLXhbsOW0MMEbn5z2gM',
   callbackURL: app.get('env') === 'development' ? 'https://localhost:3000/auth/discord/callback' : 'https://moderari.ivelthoven.nl/auth/discord/callback',
-  scope: ['email']
+  scope: ['email', 'identify']
 },
 function(accessToken, refreshToken, discord_profile, cb) {
 

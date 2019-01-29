@@ -44,16 +44,18 @@ client.on('ready', () => {
 
     let all_members = [];
     client.guilds.map(function(guild, k){
-        if (guild.available) {
-            console.log(`\x1b[32m`,`${guild.name}`,`\x1b[0m`,`[${guild.id}]`); 
-        } else {
-            console.log(`\x1b[31m`,`${guild.name}`,`\x1b[0m`,`[${guild.id}]`); 
-        }
-        database.add_server(guild);
-        // database.add_server_users(guild)
-        let members = guild.members.array();
-        for (var i = 0; i < members.length; ++i) {
-            all_members.push(members[i]);
+        if (guild.id === config.server_id) {
+            if (guild.available) {
+                console.log(`\x1b[32m`,`${guild.name}`,`\x1b[0m`,`[${guild.id}]`); 
+            } else {
+                console.log(`\x1b[31m`,`${guild.name}`,`\x1b[0m`,`[${guild.id}]`); 
+            }
+            database.add_server(guild);
+            // database.add_server_users(guild)
+            let members = guild.members.array();
+            for (var i = 0; i < members.length; ++i) {
+                all_members.push(members[i]);
+            }
         }
     })
     database.add_server_users(all_members)

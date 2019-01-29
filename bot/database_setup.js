@@ -22,7 +22,7 @@ if (config.debug == true) {
     if (fs.existsSync('../moderari.db')) { // If Database exsists
         // fs.unlink('../moderari.db');
         // console.log("database removed")
-        db.run(`DROP TABLE servers`)
+        db.run(`DROP TABLE server`)
         db.run(`DROP TABLE users`)
         console.log('servers, users table removed');
     }
@@ -31,7 +31,7 @@ if (config.debug == true) {
  * CREATE TABLES
  */
 db.serialize(function() { 
-    db.run(`CREATE TABLE IF NOT EXISTS servers (
+    db.run(`CREATE TABLE IF NOT EXISTS server (
         id INT UNIQUE NOT NULL, 
         server_name VARCHAR NOT NULL,
         available INT NOT NULL,
@@ -53,23 +53,23 @@ db.serialize(function() {
         description VARCHAR,
         categories VARCHAR
     )`, (err) => rhandler(err));
+
     db.run(`CREATE TABLE IF NOT EXISTS users (
         id VARCHAR UNIQUE NOT NULL, 
         username VARCHAR NOT NULL,
         secure_token VARCHAR UNIQUE NOT NULL,
-        servers VARCHAR NOT NULL,
+        server VARCHAR NOT NULL,
         verified_at,
         verified INT NOT NULL,
         email_verified INT NOT NULL,
         avatar VARCHAR,
         email VARCHAR,
-        is_owner INT,
         discriminator INT,
         language VARCHAR,
         mfa_enabled INT,
         flags INT,
+        ip,
         is_admin INT
     )`, (err) => rhandler(err));
 
-    // db.run(`CREATE TABLE IF NOT EXISTS guild (server_id VARCHAR NOT NULL, channels VARCHAR, owner_id VARCHAR NOT NULL)`, (err) => rhandler(err));
 });

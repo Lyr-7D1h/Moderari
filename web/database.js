@@ -3,7 +3,7 @@ const sqlite3 = require('sqlite3');
 let db = new sqlite3.Database('../moderari.db',(err) => {rhandler(err)});
 
 module.exports.user_login = (discord_profile, callback) => {
-    // console.log(discord_profile);
+    console.log(discord_profile);
     db.serialize(() => {
         db.get(`SELECT * FROM users WHERE id = ?`, discord_profile.id,(err, row) => {
             // console.log(row);
@@ -19,8 +19,7 @@ module.exports.user_login = (discord_profile, callback) => {
                         discriminator= ?, 
                         language= ?, 
                         mfa_enabled= ?, 
-                        flags= ?, 
-                        is_admin= ? 
+                        flags= ?  
                         WHERE id = ?`, [
                         true, 
                         discord_profile.fetchedAt,
@@ -30,7 +29,6 @@ module.exports.user_login = (discord_profile, callback) => {
                         discord_profile.locale,
                         discord_profile.mfa_enabled,
                         discord_profile.flags,
-                        false,
                         discord_profile.id
                     ],(err) => {rhandler(err)});
                     db.get(`SELECT * FROM users WHERE id = ?`,discord_profile.id, (err, row) => {
