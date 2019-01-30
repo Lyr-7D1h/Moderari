@@ -106,7 +106,6 @@ router.post('/news', function(req,res,next) {
                                 .setColor('#333')
                                 .setFooter(categories)
                                 .setURL(`http://moderari.ivelthoven.nl/news#${date.getTime()}`);
-                            embed = JSON.stringify(embed);
                             console.log(embed);
                             let webhook = new discord.WebhookClient('539830157368885259', 'r3C3bwsgLOw_4oTnq5KLkHhtY1h93AOymnz6x-0nYL0Igrhx3PUcL0IByqVN4H8kJdX4');
                             webhook.send('@here', embed);
