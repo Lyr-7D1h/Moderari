@@ -234,6 +234,12 @@ body
       box-shadow: 10px 0 10px -15px black
       li
         margin-top: 5px
+        cursor: pointer
+        color: orange
+        text-align: center
+        list-style: none
+        &:hover
+          color: yellow
     .documentation
       background-color: white
       opacity: 0.8
@@ -245,7 +251,11 @@ body
       position: fixed
       overflow-y: scroll
       overflow-x: hidden
+      p
+        width: 50%
       img
         max-width: 80%
         display: block
         position: relative
+      .edit_date
+        float: right

@@ -217,7 +217,13 @@ body {
     background-color: #282828;
     box-shadow: 10px 0 10px -15px black; }
     body .clean_page .side_nav li {
-      margin-top: 5px; }
+      margin-top: 5px;
+      cursor: pointer;
+      color: orange;
+      text-align: center;
+      list-style: none; }
+      body .clean_page .side_nav li:hover {
+        color: yellow; }
   body .clean_page .documentation {
     background-color: white;
     opacity: 0.8;
@@ -228,9 +234,13 @@ body {
     position: fixed;
     overflow-y: scroll;
     overflow-x: hidden; }
+    body .clean_page .documentation p {
+      width: 50%; }
     body .clean_page .documentation img {
       max-width: 80%;
       display: block;
       position: relative; }
+    body .clean_page .documentation .edit_date {
+      float: right; }
 
 /*# sourceMappingURL=main.css.map */

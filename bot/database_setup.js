@@ -71,5 +71,4 @@ db.serialize(function() {
         ip,
         is_admin INT
     )`, (err) => rhandler(err));
-
 });
