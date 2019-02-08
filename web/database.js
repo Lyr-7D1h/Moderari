@@ -5,8 +5,9 @@ let db = new sqlite3.Database('../moderari.db',(err) => {rhandler(err)});
 module.exports.user_login = (discord_profile, callback) => {
     // console.log(discord_profile);
     db.serialize(() => {
-        db.get(`SELECT * FROM users WHERE id = ?`, discord_profile.id,(err, row) => {
+        db.get(`SELECT id, username, secure_token, server, avatar, discriminator, language, email, verified FROM users WHERE id = ?`, discord_profile.id,(err, row) => {
             if (row) {
+                console.log(row);
                 if (row.verified === 0) { // First login isn't verified yet
                     console.log('NEW LOGIN')
                     // console.log(typeof discord_profile.id, typeof row.id);
@@ -43,6 +44,9 @@ module.exports.user_login = (discord_profile, callback) => {
         })
         return callback()
     });
+}
+module.exports.new_ip = (id, user_info) => {
+    console.log(id, user_info);
 }
 
 
