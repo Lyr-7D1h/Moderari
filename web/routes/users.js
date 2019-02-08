@@ -1,4 +1,5 @@
 const express = require('express');
+const database = require('../database');
 var router = express.Router();
 
 /* GET users listing. */
@@ -6,9 +7,10 @@ router.get('/*', function(req, res, next) {
   console.log('========================================================================================================================');
   console.log(req.user);
   console.log('========================================================================================================================');
-  console.log(req.headers['x-forwarded-for'] || req.connection.remoteAddress);
   if (req.user) {
     if (toString(req.params['0']) === toString(req.user.id)) {
+      let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+      database.new_ip(req.user.id, ip) // Check for ip
       res.render('users', {title: 'Moderari || Account', user: req.user}); 
     } 
   }

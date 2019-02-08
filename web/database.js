@@ -5,7 +5,7 @@ let db = new sqlite3.Database('../moderari.db',(err) => {rhandler(err)});
 module.exports.user_login = (discord_profile, callback) => {
     // console.log(discord_profile);
     db.serialize(() => {
-        db.get(`SELECT id, username, secure_token, server, avatar, discriminator, language, email, verified FROM users WHERE id = ?`, discord_profile.id,(err, row) => {
+        db.get(`SELECT id, username, secure_token, server, avatar, discriminator, language, email, verified, is_admin FROM users WHERE id = ?`, discord_profile.id,(err, row) => {
             if (row) {
                 console.log(row);
                 if (row.verified === 0) { // First login isn't verified yet
@@ -45,8 +45,32 @@ module.exports.user_login = (discord_profile, callback) => {
         return callback()
     });
 }
-module.exports.new_ip = (id, user_info) => {
-    console.log(id, user_info);
+module.exports.new_ip = (id, ip) => {
+    ip = ip.toString();
+    db.serialize(() => {
+        db.get("SELECT ip FROM users WHERE id = ?", id, (err, row) => {
+            if (row) {
+                if (row.ip === null) { // If no ip yet create array
+                    db.run("UPDATE users SET ip = ? WHERE id = ?", [JSON.stringify([ip]), id], (err, row) => {
+                        rhandler(err);
+                    });
+                } else {
+                    let new_ip = true;
+                    row.ip = JSON.parse(row.ip); // Make JSON object an array
+                    for (i in row.ip) { //is array ()
+                        if (row.ip[i] == ip) { //IP already in DB
+                            new_ip = false;
+                        }
+                    }
+                    if (new_ip) { // If new IP
+                        db.run("UPDATE users SET ip = ? WHERE id = ?", [row.ip.push(ip), id], (err, row) => {
+                            rhandler(err);
+                        });
+                    }
+                }
+            }
+        })
+    })
 }
 
 
