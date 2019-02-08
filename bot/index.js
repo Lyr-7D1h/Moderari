@@ -42,7 +42,7 @@ client.on('guildMemberAdd', (member) => {
     let embed = new Discord.RichEmbed()
         .setColor('#333')
         .setAuthor(member.guild.name, member.guild.iconURL)
-        .setDescription(`Well hello ${member.displayName}.\nYou just joined ${member.guild.name}.\nTo get to the public section of the server you first must login at https://moderari.ivelthoven.nl/`)
+        .setDescription(`Well hello ${member.displayName}.\nYou just joined ${member.guild.name}.\nTo get to the public section of the server you first must login at https://moderari.tk/`)
         .setFooter('For any problems try contacting a staff member.');
     member.createDM()
         .then((channel) =>  channel.send(embed))
