@@ -192,14 +192,37 @@ body {
       padding: 20px;
       overflow: auto; }
       body main .page h1, body main .page h2 {
-        display: inline; }
+        margin-top: 5px;
+        margin-bottom: 5px; }
+      body main .page .block {
+        width: 90%;
+        left: 5%;
+        background-color: #2d2d2d;
+        position: relative;
+        padding: 1%;
+        margin: 1%;
+        border-radius: 10px; }
+        body main .page .block .role {
+          background-color: #141414;
+          padding: 10px;
+          border: 1px solid grey;
+          overflow: auto; }
+          body main .page .block .role i:hover {
+            cursor: pointer;
+            color: #643232; }
+          body main .page .block .role div {
+            position: relative;
+            width: 24%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            float: left; }
       body main .page #secure_token_content {
         margin: 1%; }
         body main .page #secure_token_content button {
           background-color: rgba(0, 0, 0, 0);
           border: none;
           color: orange;
-          font-size: 1.1em; }
+          font-size: 1em; }
           body main .page #secure_token_content button:hover {
             text-decoration: underline; }
       body main .page img {

@@ -147,10 +147,12 @@ router.post('/news/delete', function(req,res,next) {
                     if (req.user.secure_token === row[0].secure_token ) { // Check if user is who he is saying he is
                         console.log(row[0].is_admin);
                         if (row[0].is_admin) { //Checking if user is admin
-                            db.run(`DELETE FROM news WHERE id=?`,req.body.delete_news, (err) => {rhandler(err)});
+                            if (req.body.delete_news) { //Make sure there is a form send
+                                db.run(`DELETE FROM news WHERE id=?`,req.body.delete_news, (err) => {rhandler(err)});
     
-                            req.flash('success', 'News article deleted')
-                            res.redirect('/news');
+                                req.flash('success', 'News article deleted')
+                                res.redirect('/news');
+                            }
                         } 
                     }
                 }
@@ -166,8 +168,89 @@ router.post('/news/delete', function(req,res,next) {
         }
     }, 2000);
 })
+router.get('/roles', function(req,res,next) {
+    db.serialize(() => {
+        db.all(`SELECT secure_token, is_admin FROM users WHERE id=?`,req.user.id, (err, row) => {
+            rhandler(err);
+            if(row) {
+                if (row.length > 0) {
+                    if (req.user.secure_token === row[0].secure_token ) { // Check if user is who he is saying he is
+                        if (row[0].is_admin) { //Checking if user is admin
+                            db.all('SELECT * FROM roles', (err, rows) => {
+                                rhandler(err);
+                                if (rows) {
+                                    if (rows.length > 0) {
+                                        res.send(rows);
+                                    }
+                                }
+                            });
+                        } 
+                    }
+                }
+            }
+        })
+    });
+    setTimeout(() => { 
+        if (!res.headersSent) {
+            res.send('Nothing found');
+            res.status(404);
+        }
+    }, 2000);
+})
+router.post('/roles', function(req,res,next) {
+    db.serialize(() => {
+        db.all(`SELECT secure_token, is_admin FROM users WHERE id=?`,req.user.id, (err, row) => {
+            rhandler(err);
+            if(row) {
+                if (row.length > 0) {
+                    if (req.user.secure_token === row[0].secure_token ) { // Check if user is who he is saying he is
+                        if (row[0].is_admin) { //Checking if user is admin
+                            console.log(req.body);
+                            db.run('INSERT INTO roles (id, name, level) VALUES (?, ?, ?)',[new Date().getTime(),req.body.name, req.body.level], (err, rows) => {rhandler(err);});
+                            req.flash('success', 'Created role')
+                            res.redirect('/users/'+req.user.id);
+                        } 
+                    }
+                }
+            }
+        })
+    });
+    setTimeout(() => { 
+        if (!res.headersSent) {
+            req.flash('alert', 'Role didn\'t create');
+            res.redirect('/users/'+req.user.id);
+            res.status(404);
+        }
+    }, 2000);
+})
+router.post('/roles/delete', function(req,res,next) {
+    db.serialize(() => {
+        db.all(`SELECT secure_token, is_admin FROM users WHERE id=?`,req.user.id, (err, row) => {
+            rhandler(err);
+            if(row) {
+                if (row.length > 0) {
+                    if (req.user.secure_token === row[0].secure_token ) { // Check if user is who he is saying he is
+                        if (row[0].is_admin) { //Checking if user is admin
+                            console.log(req.body);
+                            db.run(`DELETE FROM roles WHERE id=?`,req.body.id, (err) => {rhandler(err)});
 
+                            req.flash('success', 'Role deleted')
+                            res.redirect('/users/'+req.user.id);
+                        } 
+                    }
+                }
+            }
+        })
+    });
 
+    setTimeout(() => { 
+        if (!res.headersSent) {
+            req.flash('alert', 'News article didn\'t delete');
+            res.redirect('/users/'+req.user.id);
+            res.status(404);
+        }
+    }, 2000);
+})
 
 
 let rhandler = (err) => {

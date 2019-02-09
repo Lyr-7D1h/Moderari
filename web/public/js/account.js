@@ -1,3 +1,13 @@
+// let http_get = (path, callback) => {
+//     $.get(path, 
+//     function (data, textStatus, jqXHR) {
+//         if (textStatus === 'success') {
+//             callback(data);
+//         }
+//     },
+//     "JSON");
+//     return callback();
+// }
 let hide_all_pages = () => {
     $('.page').each(function (i, el) {
         $(el).css('display', 'none');
@@ -12,28 +22,36 @@ let load_nav = () => {
             $(el).addClass('active');
 
             let page = el.id.substr(8);
-            // console.log(page);
+            if (page === "manage") {
+                load_manage();
+            }
             $(`#page_${page}`).show();
 
         })
-        // console.log(el.id);
     })
 }
-// let sort_server_data = () => {
-//     let data = JSON.parse($('#user_servers').html());
-//     $(`#user_servers`).html('')
-//     for (i in data) {
-//         let server = data[i];
-//         console.log(server);
-//         let manageable = '';
-//         if (server.is_owner) {
-//             manageable += `<span class="tag manageable">Manageable</span>`;
-//         }
-//         console.log(manageable);
-//         $('#user_servers').append(`<div id="user_server_${server.server_id}" class="user_server_block">${manageable}<span class="tag verified">Verified</span><h3><b>${server.server_name} [${server.server_id}]</b></h3></div>`);
-//     }
-//     // console.log(data);
-// }
+let load_manage = () => {
+    console.log("LOADING MANAGE" );
+    http_get("/data/roles", (data) => {
+        if (data) {
+            for (i in data) {
+                $('#roles_content').append(`
+                <div class="role"> 
+                    <div class="id">${data[i].id}</div> 
+                    <div class="name">${data[i].name}</div> 
+                    <div class="level">${data[i].level}</div> 
+                    <div class="users">${data[i].users}</div> 
+                    <i data-id="${i}" class="fas fa-trash role_edit"></i>
+                </div>`);
+            }
+            $('.role_edit').on('click', (e) => {
+                let role_data = data[$(e.target).data("id")];
+                alert('Deleted role "'+role_data.name+'"\nRefresh page');
+                $.post( "/data/roles/delete", { id: role_data.id} );
+            })
+        }
+    })
+}
 let secure_token_button = () => {
     let token = $('#secure_token').html();
     $('#secure_token').html('Click to reveal');
@@ -43,9 +61,10 @@ let secure_token_button = () => {
 }
 $(document).ready(function () {
     hide_all_pages();
-    $(`#page_info`).show(); //Start with info page
-    $(`#account_info`).addClass('active');
+    $(`#page_manage`).show(); //Start with info page
+    $(`#account_manage`).addClass('active');
+    load_manage();
+
     load_nav();
-    // sort_server_data();
     secure_token_button();
 });
