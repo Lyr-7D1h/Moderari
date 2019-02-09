@@ -29,7 +29,7 @@ body {
         background-color: orange;
         cursor: pointer;
         transition: 1s; }
-    body .sec_nav #account_contact {
+    body .sec_nav #account_manage, body .sec_nav #account_contact {
       float: right; }
     body .sec_nav .active {
       background-color: orange; }
@@ -193,6 +193,15 @@ body {
       overflow: auto; }
       body main .page h1, body main .page h2 {
         display: inline; }
+      body main .page #secure_token_content {
+        margin: 1%; }
+        body main .page #secure_token_content button {
+          background-color: rgba(0, 0, 0, 0);
+          border: none;
+          color: orange;
+          font-size: 1.1em; }
+          body main .page #secure_token_content button:hover {
+            text-decoration: underline; }
       body main .page img {
         margin-bottom: 5%;
         float: right;

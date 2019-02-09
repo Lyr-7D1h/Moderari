@@ -1,10 +1,10 @@
 <ul class="sec_nav">
     <li class="account_nav" id="account_info">Info</li>
-    <li class="account_nav" id="account_servers">Servers</li>
-    {{#if user.is_owner}}
-    <li class="account_nav" id="account_manage">Manage Servers</li>
-    {{/if}}
+    <li class="account_nav" id="account_server">Server</li>
     <li class="account_nav" id="account_contact">Contact</li>
+     {{#if user.is_admin}}
+    <li class="account_nav" id="account_manage">Manage Server</li>
+    {{/if}} 
 </ul>
 <main>
     <div class="page" id="page_info">
@@ -13,19 +13,23 @@
         <img src="{{user.avatar}}" alt="User Avatar">
         <h2 style="color:#7289da">Discord</h2><br>
         Language: {{user.language}}<br>
-        2 Factor enabled: {{user.mfa_enabled}}<br>
         User Tag: {{user.username}}#{{user.discriminator}}<br>
         {{#if user.email}}
-        Email: {{user.email}}
+        Email: {{user.email}}<br>
         {{/if}}
-    </div>
-    <div class="page" id="page_servers">
-        <h1>Registered User on:</h1>
-        <div id="user_servers">
-            {{user.servers}}
+        <br><br><b>Secure Token: </b><br><i>You might need to use this to identiy your account.<br> -Only give it to verified administrators-</i>
+        <br>
+        <div id="secure_token_content">
+            <button id="secure_token">{{user.secure_token}}</button>
         </div>
     </div>
-    {{#if user.is_owner}}
+    <div class="page" id="page_server">
+        <h1>Server information:</h1>
+        <div id="user_server">
+            {{user.server}}
+        </div>
+    </div>
+    {{#if user.is_admin}}
     <div class="page" id="page_manage">
         <h1>Manage your servers:</h1>
     </div>
