@@ -16,7 +16,6 @@ let db = new sqlite3.Database('../moderari.db',(err) => {
 });
 
 module.exports.add_server = (guild) => {
-
     let channels = []
     guild.channels.map((v) => {
         channels.push(v.id);
@@ -83,7 +82,7 @@ module.exports.add_server_users = (all_members) => {
                 rhandler(err);
                 if (rows) {
                     if (!(rows.length > 0)) {
-                        db.get(`SELECT * FROM server`, (err,row) => {
+                        db.get(`SELECT * FROM server`, (err,row) => { 
                             rhandler(err);
                             let server = {}; // SETUP for user server info needed
                             let is_admin = false;
@@ -92,9 +91,8 @@ module.exports.add_server_users = (all_members) => {
                                 let user_list = JSON.parse(row.users);
                                 for (i in user_list) {
                                     if (user_list[i] == member.id) {
-                                        if (guild.owner_id == member.id) {
+                                        if (guild.owner_id == member.id) { // get owner / is_admin
                                             is_admin = true;
-                                            is_owner = true;
                                         }
                                     }
                                 }
@@ -122,4 +120,9 @@ module.exports.add_server_users = (all_members) => {
             })   
         });
     }
+}
+module.exports.remove_server_user = (id) => {
+    db.serialize(() => {
+        db.run('DELETE FROM users WHERE id=?', id, (err) => {rhandler(err);})
+    });
 }

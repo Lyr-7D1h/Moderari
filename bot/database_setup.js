@@ -68,7 +68,15 @@ db.serialize(function() {
         language VARCHAR,
         mfa_enabled INT,
         flags INT,
+        roles,
         ip,
         is_admin INT
+    )`, (err) => rhandler(err));
+
+    db.run(`CREATE TABLE IF NOT EXISTS roles (
+        id VARCHAR UNIQUE NOT NULL, 
+        name VARCHAR UNIQUE NOT NULL,
+        level INT NOT NULL,
+        users
     )`, (err) => rhandler(err));
 });

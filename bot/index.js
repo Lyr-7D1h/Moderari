@@ -41,6 +41,7 @@ fs.readdir("./commands", (err, files) => {
  * Do something upon member joining
  */
 client.on('guildMemberAdd', (member) => {
+    // Messages
     let embed = new Discord.RichEmbed()
         .setColor('#333')
         .setAuthor(member.guild.name, member.guild.iconURL)
@@ -58,6 +59,15 @@ client.on('guildMemberAdd', (member) => {
         .setDescription(`${member} just crossed the border.\nOur guardian has send you a message please follow its instructions..`);
         welcome_channel.send(embed);
     }
+
+    // Roles
+    // adding role..
+
+    // ADD MEMBER TO DB
+    database.add_server_users([member]);
+})
+client.on('guildMemberRemove', (member) => {
+    database.remove_server_user(member.id);
 })
 
 
