@@ -64,7 +64,7 @@ module.exports.new_ip = (id, ip) => {
                     }
                     if (new_ip) { // If new IP
                         ip_array.push(ip); //Insert the newest array
-                        db.run("UPDATE users SET ip = ? WHERE id = ?", [ip_array, id], (err, row) => {
+                        db.run("UPDATE users SET ip = ? WHERE id = ?", [JSON.stringify(ip_array), id], (err, row) => {
                             rhandler(err);
                         });
                     }
