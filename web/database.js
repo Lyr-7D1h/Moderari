@@ -56,6 +56,8 @@ module.exports.new_ip = (id, ip) => {
                     });
                 } else {
                     let new_ip = true;
+                    console.log(row)
+                    console.log(typeof row.ip);
                     let ip_array = JSON.parse(row.ip); // Make JSON object an array
                     for (i in row.ip) { //is array ()
                         if (row.ip[i] == ip) { //IP already in DB
