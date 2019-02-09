@@ -56,15 +56,15 @@ module.exports.new_ip = (id, ip) => {
                     });
                 } else {
                     let new_ip = true;
-                    row.ip = JSON.parse(row.ip); // Make JSON object an array
+                    let ip_array = JSON.parse(row.ip); // Make JSON object an array
                     for (i in row.ip) { //is array ()
                         if (row.ip[i] == ip) { //IP already in DB
                             new_ip = false;
                         }
                     }
                     if (new_ip) { // If new IP
-                        row.ip.push(ip); //Insert the newest array
-                        db.run("UPDATE users SET ip = ? WHERE id = ?", [JSON.stringify(row.ip), id], (err, row) => {
+                        ip_array.push(ip); //Insert the newest array
+                        db.run("UPDATE users SET ip = ? WHERE id = ?", [JSON.stringify(ip_array), id], (err, row) => {
                             rhandler(err);
                         });
                     }
