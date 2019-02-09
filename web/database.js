@@ -57,8 +57,8 @@ module.exports.new_ip = (id, ip) => {
                 } else {
                     let new_ip = true;
                     let ip_array = JSON.parse(row.ip); // Make JSON object an array
-                    for (i in row.ip) { //is array ()
-                        if (row.ip[i] == ip) { //IP already in DB
+                    for (i in ip_array) { //is array ()
+                        if (ip_array[i] == ip) { //IP already in DB
                             new_ip = false;
                         }
                     }
