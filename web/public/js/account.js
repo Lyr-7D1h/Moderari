@@ -61,9 +61,8 @@ let secure_token_button = () => {
 }
 $(document).ready(function () {
     hide_all_pages();
-    $(`#page_manage`).show(); //Start with info page
-    $(`#account_manage`).addClass('active');
-    load_manage();
+    $(`#page_info`).show(); //Start with info page
+    $(`#account_info`).addClass('active');
 
     load_nav();
     secure_token_button();
