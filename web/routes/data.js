@@ -108,7 +108,17 @@ router.post('/news', function(req,res,next) {
                                 .setURL(`https://moderari.tk/news#${date.getTime()}`);
                             console.log(embed);
                             let webhook = new discord.WebhookClient('539830157368885259', 'r3C3bwsgLOw_4oTnq5KLkHhtY1h93AOymnz6x-0nYL0Igrhx3PUcL0IByqVN4H8kJdX4');
-                            webhook.send('@here', embed);
+                            let important = false;
+                            for (i in categories) {
+                                if (categories[i] == "important") {
+                                    important = true;
+                                }
+                            }
+                            if (important) { // add everyone tag if important category
+                                webhook.send('@everyone', embed);
+                            } else {
+                                webhook.send(embed);
+                            }
 
                             req.flash('success', 'News form send')
                             res.redirect('/news');

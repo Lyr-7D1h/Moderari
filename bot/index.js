@@ -35,6 +35,8 @@ fs.readdir("./commands", (err, files) => {
 })
 
 
+
+
 /**
  * Do something upon member joining
  */
@@ -57,6 +59,8 @@ client.on('guildMemberAdd', (member) => {
         welcome_channel.send(embed);
     }
 })
+
+
 
 
 /**
