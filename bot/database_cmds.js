@@ -12,7 +12,7 @@ let rhandler = (err) => {
 
 let path = '../moderari.db'
 let db = new sqlite3.Database('../moderari.db',(err) => {
-    if (err) {console.log(err)}
+    rhandler(err);
 });
 
 module.exports.add_server = (guild) => {
@@ -125,4 +125,13 @@ module.exports.remove_server_user = (id) => {
     db.serialize(() => {
         db.run('DELETE FROM users WHERE id=?', id, (err) => {rhandler(err);})
     });
+}
+module.exports.get_roles = (callback) => {
+    db.serialize(() => {
+        db.all('SELECT * FROM roles', (err, rows) => {
+            rhandler(err);
+            callback(rows);
+        });
+    })
+    return callback();
 }

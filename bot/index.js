@@ -9,6 +9,7 @@ if (config.debug) { //Debug message
 
 require('./database_setup'); //Setup database if doesn't exist yet
 const database = require('./database_cmds') //Get Datbase commands
+const modules = require('./modules');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -115,21 +116,26 @@ client.on('ready', () => {
 
     let all_members = [];
     client.guilds.map(function(guild, k){
-        if (guild.id === config.server_id) {
-            if (guild.available) {
+        if (guild.id === config.server_id) { // Loading active guild
+            if (guild.available) { // Print active server
                 console.log(`\x1b[32m`,`${guild.name}`,`\x1b[0m`,`[${guild.id}]`); 
             } else {
                 console.log(`\x1b[31m`,`${guild.name}`,`\x1b[0m`,`[${guild.id}]`); 
             }
-            database.add_server(guild);
-            // database.add_server_users(guild)
-            let members = guild.members.array();
+            
+
+            database.add_server(guild); // add server to DB
+            modules.create_roles(guild);
+            // modules.remove_roles(guild);
+
+            
+            let members = guild.members.array(); // add to all members
             for (var i = 0; i < members.length; ++i) {
                 all_members.push(members[i]);
             }
         }
     })
-    database.add_server_users(all_members)
+    database.add_server_users(all_members); // Add all members on all servers
     console.log('\n\n')
 });
 client.login(config.token);
