@@ -25,8 +25,8 @@ module.exports.create_roles = (guild) => {
                             case -1:
                                 guild.createRole({
                                     name: role.name,
-                                    color: [100,50,50],
-                                    position: role.level,
+                                    color: [50,50,100],
+                                    position: 100,
                                     hoist: true,
                                     permissions: config.role_permissions[role.level]
                                 })
