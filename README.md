@@ -16,7 +16,7 @@ I've been putting a very big amount of time into this so I ask you to follow the
 
 # Instructions
 
-Go To folder
+Go To folder web/bot depending on what web you want to access
 
 first use   
 "npm install"
