@@ -6,7 +6,7 @@ $ter_color: #333434
 
 *:focus
   outline: 0
-html 
+html
   // height: 100%
   // width: 100%
 body
@@ -74,7 +74,7 @@ body
     .success
       background-color: rgb(50,100,50)
 
-    .active 
+    .active
       background-color: $prim-color
     #login_display
       position: absolute
@@ -84,7 +84,7 @@ body
       font-family: 'Ubuntu Mono'
       margin: 0
       margin-top: 10px
-    h1 
+    h1
       font-size: 2.5em
       color: $prim_color
       margin: 0
@@ -107,7 +107,7 @@ body
       float: right
   ul
     list-style: none
-  h1 
+  h1
     color: $prim_color
   a
     text-decoration: none
@@ -143,7 +143,7 @@ body
         padding: 10px
         padding-left: 20px
         overflow: auto
-        img 
+        img
           float: right
           position: relative
           width: 10%
@@ -156,14 +156,14 @@ body
       left: 9%
       position: relative
       box-shadow: 0px 0px 10px black
-      form 
+      form
         margin-left: 2.5%
       input, select, textarea
         font-size: 1.1em
         display: block
         width: 95%
         margin: 10px
-      input[type=submit] 
+      input[type=submit]
         background-color: $prim_color
         width: 50%
         color: white
@@ -176,18 +176,18 @@ body
         float: right
         position: relative
         top: 10px
-      .tag 
+      .tag
         display: inline
         padding: 10px
         margin-right: 5px
         top: 10px
         position: relative
         background-color: $ter_color
-      .web 
+      .web
         background-color: rgb(50,50,100)
       .database
         background-color: rgb(50,100,50)
-      .bot 
+      .bot
         background-color: rgb(100,100,50)
       .important
         background-color: rgb(100,50,50)
@@ -226,7 +226,7 @@ body
             text-overflow: ellipsis
             overflow: hidden
             float: left
-          
+
       #secure_token_content
         margin: 1%
         button
@@ -279,7 +279,7 @@ body
       opacity: 0.8
       left: 15%
       width: 83%
-      // height: 
+      // height:
       padding: 1%
       color: black
       position: fixed
@@ -293,3 +293,13 @@ body
         position: relative
       .edit_date
         float: right
+.index-info
+  width: 50%
+  font-size: 1.1em
+@media only screen and (max-width: 720px)
+  .index-info
+    width: 100% //Info takes up full width of the screen on mobile
+  .system_cores
+    width: 100%
+    margin: 0
+    padding: 0

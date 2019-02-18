@@ -275,4 +275,16 @@ body {
     body .clean_page .documentation .edit_date {
       float: right; }
 
+.index-info {
+  width: 50%;
+  font-size: 1.1em; }
+
+@media only screen and (max-width: 720px) {
+  .index-info {
+    width: 100%; }
+  .system_cores {
+    width: 100%;
+    margin: 0;
+    padding: 0; } }
+
 /*# sourceMappingURL=main.css.map */
