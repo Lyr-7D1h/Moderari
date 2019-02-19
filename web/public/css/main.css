@@ -110,9 +110,6 @@ body {
     padding: 3%;
     padding-left: 5%;
     padding-right: 5%; }
-    @media only screen and (max-width: 720px) {
-      body main {
-        height: 100%; } }
     body main .system_cores {
       background-color: #222;
       padding: 50px;
@@ -291,5 +288,10 @@ body {
   @media only screen and (max-width: 720px) {
     .index-info {
       width: 100%; } }
+
+a {
+  font-size: 1.2em;
+  transition-property: color;
+  transition-duration: 0.1s; }
 
 /*# sourceMappingURL=main.css.map */
