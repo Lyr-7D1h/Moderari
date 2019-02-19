@@ -126,6 +126,12 @@ body
       margin: 2%
       float: left
       box-shadow: 0px 0px 10px black
+      @media only screen and (max-width: 720px)
+          width: 100%
+          padding-top: 50px
+          padding: 0
+          line-height: 30px
+          margin-left: 0
     .server_block
       position: relative
       width: 70%
@@ -296,10 +302,5 @@ body
 .index-info
   width: 50%
   font-size: 1.1em
-@media only screen and (max-width: 720px)
-  .index-info
+  @media only screen and (max-width: 720px)
     width: 100% //Info takes up full width of the screen on mobile
-  .system_cores
-    width: 100%
-    margin: 0
-    padding: 0

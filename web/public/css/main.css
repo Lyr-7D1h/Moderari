@@ -110,6 +110,9 @@ body {
     padding: 3%;
     padding-left: 5%;
     padding-right: 5%; }
+    @media only screen and (max-width: 720px) {
+      body main {
+        height: 100%; } }
     body main .system_cores {
       background-color: #222;
       padding: 50px;
@@ -117,6 +120,13 @@ body {
       margin: 2%;
       float: left;
       box-shadow: 0px 0px 10px black; }
+      @media only screen and (max-width: 720px) {
+        body main .system_cores {
+          width: 100%;
+          padding-top: 50px;
+          padding: 0;
+          line-height: 30px;
+          margin-left: 0; } }
     body main .server_block {
       position: relative;
       width: 70%;
@@ -278,13 +288,8 @@ body {
 .index-info {
   width: 50%;
   font-size: 1.1em; }
-
-@media only screen and (max-width: 720px) {
-  .index-info {
-    width: 100%; }
-  .system_cores {
-    width: 100%;
-    margin: 0;
-    padding: 0; } }
+  @media only screen and (max-width: 720px) {
+    .index-info {
+      width: 100%; } }
 
 /*# sourceMappingURL=main.css.map */
